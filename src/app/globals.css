@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 :root {
   --background: hwb(0 100% 0%);
   --foreground: #202020;

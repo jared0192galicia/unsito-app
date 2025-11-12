@@ -17,6 +17,7 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
         manjari: ['Manjari', 'sans-serif'],
         rounded: ['"Arial Rounded MT Bold"', 'Arial', 'sans-serif'],
+        josefin: ['"Josefin Slab"', 'serif'],
       },
       colors: {
         'app-blue-900': '#09344F',
