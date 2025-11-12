@@ -14,6 +14,7 @@ module.exports = {
         valera: ['font-valera', 'ValeraRound'],
         jaldi: ['font-jaldi', 'Jaldi'],
         lexend: ['Lexend', 'sans-serif'],
+        karma: ['Karma'],
         inter: ['Inter', 'sans-serif'],
         manjari: ['Manjari', 'sans-serif'],
         rounded: ['"Arial Rounded MT Bold"', 'Arial', 'sans-serif'],

@@ -1,7 +1,18 @@
+import Hero from '@/components/home/hero';
+import cn from '@/utils/cn';
+
 export default function Home() {
   return (
-    <div className="font-jaldi bg-app-blue-900 grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      UNSITO
-    </div>
+    <>
+      <Hero></Hero>
+      <h2
+        className={cn(
+          'text-app-burgundy-900 text-4xl font-jaldi',
+          'text-center font-semibold mt-44 mb-10'
+        )}
+      >
+        Últimas Noticias
+      </h2>
+    </>
   );
 }

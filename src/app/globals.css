@@ -13,6 +13,15 @@
   /* --font-jaldi: var(); */
 }
 
+@font-face {
+  font-family: 'Karma';
+  src: url('/fonts/Karma/Karma-Regular.ttf') format('ttf'),
+    url('/fonts/Karma/Karma-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
