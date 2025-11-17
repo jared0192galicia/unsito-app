@@ -1,16 +1,17 @@
+"use client";
 import Navbar from "../shared/navbar";
-
+import Footer from "../shared/footer";
 
 export default function Home() {
   return (
-    
-    <div >
-      
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="p-10">
 
+      <main className="flex-1 p-10">
+        {/* Contenido aquí */}
       </main>
+
+      <Footer />
     </div>
-    
   );
 }
