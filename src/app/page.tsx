@@ -1,103 +1,87 @@
-import Image from "next/image";
+// src/app/page.tsx
 
+// 1. IMPORTA TU TEMPLATE DE NOTA
+import NoteTemplate from '../shared/noteTemplate'; 
+
+
+// 2. Definición temporal de la interfaz
+interface NoteDetails {
+    title: string;
+    banner: string; 
+    type: string;
+    date: string;
+    body: string;
+}
+
+// 3. DATOS DE EJEMPLO (Con variaciones para simular las 4 tarjetas)
+const commonBanner = 'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB';
+
+const newsItems: NoteDetails[] = [
+    {
+        title: 'XVII Semana de las Culturas de la Sierra Sur',
+        banner: commonBanner,
+        type: 'Evento Cultural',
+        date: 'Del 12 al 17 de octubre de 2025',
+        body: 'La Universidad de la Sierra Sur hace una cordial invitación a la comunidad universitaria y público en general a participar en las actividades de la XVII Semana de las Culturas de la Sierra Sur, que se  celebrará del 12 al 17 de octubre de 2025. \n Evento gratuito. Asiste y celebra nuestras culturas con música, danza, artesanías, conferencias, exposiciones y gastronomía de nuestra región.',
+    },
+    {
+        title: 'Convocatoria de Becas para Ingeniería',
+        banner: commonBanner,
+        type: 'Académico',
+        date: 'Vence el 30 de noviembre',
+        body: 'Abierta la convocatoria para becas de apoyo a estudiantes de la carrera de Ingeniería en los Sistemas de Información.',
+    },
+    {
+        title: 'Resultados del Torneo Deportivo UNIS',
+        banner: commonBanner,
+        type: 'Deportes',
+        date: 'Publicado: 15 de noviembre',
+        body: 'Revisa la tabla final de posiciones y los ganadores del torneo de fútbol y básquetbol interuniversitario 2025.',
+    },
+    {
+        title: 'Nuevo Protocolo de Seguridad COVID-19',
+        banner: commonBanner,
+        type: 'Avisos',
+        date: 'Efectivo: 1 de diciembre',
+        body: 'La rectoría anuncia la actualización del protocolo de seguridad sanitaria en todas las instalaciones universitarias.',
+    },
+];
+
+
+// 4. Modifica el componente principal Home
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    return (
+        // Contenedor principal con fondo (bg-gray-50) y espaciado
+        <div className="min-h-screen p-8 bg-gray-50">
+            
+            {/* Título de la Sección */}
+            <h1 className="text-4xl font-bold mb-12 text-center text-[#79170f]">
+                Últimas noticias
+            </h1>
+            
+            {/* Contenedor del Grid */}
+            <div className="max-w-15xl mx-auto">
+                {/* Clases del Grid:
+                  grid: Habilita el grid.
+                  grid-cols-1: 1 columna por defecto (móvil).
+                  sm:grid-cols-2: 2 columnas en pantallas pequeñas (>= 640px).
+                  lg:grid-cols-4: 4 columnas en pantallas grandes (desktop).
+                  gap-6: Espacio consistente entre las tarjetas.
+                */}
+                <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 align-items-center justify-items-center">
+                    
+                    {/* Mapeo del array de noticias para renderizar las tarjetas */}
+                    {newsItems.map((note, index) => (
+                        // Renderizamos directamente el NoteTemplate sin un div extra, 
+                        // ya que el template ya tiene el estilo de tarjeta (shadow-lg, etc.)
+                        <NoteTemplate 
+                            key={index} // Se usa el índice como key, idealmente sería un ID único.
+                            note={note} 
+                        />
+                    ))}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+                </div>
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
