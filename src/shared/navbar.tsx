@@ -1,17 +1,17 @@
-"use client";
-import { useState } from "react";
-import { Bell } from "lucide-react"; // icono de campana (instala con npm i lucide-react)
+'use client';
+import { useState } from 'react';
+import { Bell } from 'lucide-react'; // icono de campana (instala con npm i lucide-react)
 
 export default function Navbar() {
-  const [active, setActive] = useState("Noticias");
+  const [active, setActive] = useState('Noticias');
 
-  const links = ["Inicio", "Noticias", "Eventos", "Calendario"];
+  const links = ['Inicio', 'Noticias', 'Eventos', 'Calendario'];
 
   return (
-    <nav className="w-full bg-[#e8f0f7] border border-[#b9cde3] px-8 py-3 flex items-center justify-between">
+    <nav className="w-full bg-[#e8f0f7] borde sticky top-0 border-[#b9cde3] px-8 py-3 flex items-center justify-between">
       {/* Logo */}
       <div className="font-['Josefin_Slab'] text-xl text-[#0c1d33] font-semibold">
-        EL UNSITO
+        UNSITO
       </div>
 
       {/* Links */}
@@ -20,7 +20,7 @@ export default function Navbar() {
           <li
             key={link}
             className={`cursor-pointer transition font-jaldi ${
-              active === link ? "font-bold" : "font-normal"
+              active === link ? 'font-bold' : 'font-normal'
             }`}
             onClick={() => setActive(link)}
           >

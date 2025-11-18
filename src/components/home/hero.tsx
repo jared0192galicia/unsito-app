@@ -36,6 +36,8 @@ export default function Hero() {
           />
         </svg>
       </div>
+
+      <div className="my-44 w-1"></div>
     </header>
   );
 }
