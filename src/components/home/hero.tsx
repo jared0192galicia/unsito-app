@@ -5,7 +5,7 @@ export default function Hero() {
     <header className="relative">
       <section
         className={cn(
-          'w-screen h-[80vh] flex flex-col items-center justify-center overflow-x-hidden',
+          'w-screen h-[80vh] flex flex-col itemscenter justify-center overflow-x-hidden',
           'bg-gradient-to-b from-app-soft-white to-app-blue-600'
         )}
       >
@@ -14,7 +14,7 @@ export default function Hero() {
 
         <div className="h-10"></div>
 
-        <p className="text-app-gray-text text-base md:text-lg xl:text-3xl z-20 text-left w-3/4">
+        <p className="text-app-gray-text text-base md:text-lg xl:text-3xl z-20 text-left left-0 w-2/3 ml-10">
           Noticias y eventos de la Universidad de la Sierra Sur. <br />
           Un espacio digital para mantenerte al día con la vida universitaria,
           la ciencia y la ciencia y la cultura en la UNSIS.
