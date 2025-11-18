@@ -1,6 +1,10 @@
 import Hero from '@/components/home/hero';
 import cn from '@/utils/cn';
 
+"use client";
+import Navbar from "../shared/navbar";
+import Footer from "../shared/footer";
+
 export default function Home() {
   return (
     <>
