@@ -2,26 +2,60 @@
 import { ControlButton } from '@/shared/ui/button';
 import Input from '@/shared/ui/input';
 import cn from '@/utils/cn';
+import { Lock, User } from 'lucide-react';
 
 export default function Login() {
   return (
-    <div className="bg-app-white w-screen h-screen relative">
-      <section
+    <div className="relative w-screen h-screen bg-app-white overflow-hidden flex">
+      <div className="flex-1 flex items-center justify-center relative z-10">
+        <section
+          className={cn(
+            'w-[350px] max-w-md rounded-xl bg-white',
+            'border border-gray-200 shadow-md',
+            'px-10 py-12 flex flex-col gap-9'
+          )}
+        >
+          <h2 className="text-2xl font-semibold text-center text-gray-800">
+            Iniciar Sesión
+          </h2>
+
+          <Input
+            label="Usuario o correo"
+            name="user"
+            placeholder="ejemplo@gmail.com"
+            icon={<User size={16} />}
+            change={() => {}}
+          />
+
+          <Input
+            label="Contraseña"
+            name="password"
+            placeholder="Contraseña"
+            type="password"
+            icon={<Lock size={16} />}
+            change={() => {}}
+          />
+          <ControlButton label="Entrar" type="primary" />
+        </section>
+      </div>
+
+      <div
         className={cn(
-          'mx-auto my-auto w-11/12 md:w1/2 lg:w-1/3 rounded-lg',
-          'border border-solid border-gray-200 px-5 py-6',
-          'flex gap-7 flex-col bg-white'
+          'bg-gradient-to-b m-auto h-[70%] w-[1px] z-50',
+          'from-app-blue-600/40 via-app-blue-900 to-app-blue-600/40'
         )}
-      >
-        <Input change={() => {}} label="Usuario" name="hola"></Input>
-        <Input
-          change={() => {}}
-          label="Contraseña"
-          name="hola"
-          type="password"
-        ></Input>
-        <ControlButton label="Login" type="primary" />
-      </section>
+      ></div>
+
+      <div className="hidden md:flex flex-1 flex-col items-center justify-center pr-16 relative z-10">
+        <h1 className="text-5xl font-serif text-[#1E3A54]">EL UNSITO</h1>
+        <span className="text-2xl mt-2 text-[#1E3A54] opacity-80">
+          Administración
+          <div
+            className={cn('bg-app-blue-600 m-auto w-full h-[1px] z-50')}
+          ></div>
+        </span>
+      </div>
+
       <Waves />
     </div>
   );
@@ -29,13 +63,13 @@ export default function Login() {
 
 function Waves() {
   return (
-    <div className={cn('w-screen bg-app-white absolute bottom-0 overflow-hidden')}>
+    <div className="absolute bottom-0 left-0 w-full pointer-events-none">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="1440"
-        height="421"
+        width="100%"
+        height="auto"
         viewBox="0 0 1440 421"
-        fill="none"
+        preserveAspectRatio="none"
       >
         <g clipPath="url(#clip0_163_451)">
           <path
