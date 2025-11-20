@@ -58,7 +58,7 @@ function Circle() {
           rx="501.5"
           ry="499.5"
           fill="url(#paint0_linear_132_367)"
-          fill-opacity="0.4"
+          fillOpacity="0.4"
         />
         <defs>
           <linearGradient
@@ -69,9 +69,9 @@ function Circle() {
             y2="725"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#E8EFF3" />
-            <stop offset="0.686758" stop-color="#77A5C2" />
-            <stop offset="1" stop-color="#295A78" />
+            <stop stopColor="#E8EFF3" />
+            <stop offset="0.686758" stopColor="#77A5C2" />
+            <stop offset="1" stopColor="#295A78" />
           </linearGradient>
         </defs>
       </svg>
