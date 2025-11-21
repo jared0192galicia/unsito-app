@@ -12,7 +12,7 @@ export default function Login() {
           className={cn(
             'w-[350px] max-w-md rounded-xl bg-white',
             'border border-gray-200 shadow-md',
-            'px-10 py-12 flex flex-col gap-9'
+            'px-10 py-12 flex flex-col gap-7'
           )}
         >
           <h2 className="text-2xl font-semibold text-center text-gray-800">
@@ -27,14 +27,25 @@ export default function Login() {
             change={() => {}}
           />
 
-          <Input
-            label="Contraseña"
-            name="password"
-            placeholder="Contraseña"
-            type="password"
-            icon={<Lock size={16} />}
-            change={() => {}}
-          />
+          <div>
+            <Input
+              label="Contraseña"
+              name="password"
+              placeholder="Contraseña"
+              type="password"
+              icon={<Lock size={16} />}
+              change={() => {}}
+            />
+            <span
+              className={cn(
+                'text-app-gray-text/40 text-sm',
+                'cursor-pointer',
+                'mt-2 hover:underline'
+              )}
+            >
+              ¿Olvidaste tu Contraseña?
+            </span>
+          </div>
           <ControlButton label="Entrar" type="primary" />
         </section>
       </div>
