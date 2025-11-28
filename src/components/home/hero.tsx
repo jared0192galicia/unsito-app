@@ -1,3 +1,4 @@
+'use client';
 import cn from '@/utils/cn';
 
 export default function Hero() {
@@ -22,7 +23,7 @@ export default function Hero() {
 
         <div></div>
       </section>
-      <div className="absolute w-full top-[80vh] z-10">
+      {/* <div className="absolute w-full top-[80vh] z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="100%"
@@ -35,10 +36,86 @@ export default function Hero() {
             fill="#77A5C2"
           />
         </svg>
-      </div>
+      </div> */}
+      <Waves />
 
       <div className="my-44 w-1"></div>
     </header>
+  );
+}
+
+import { motion } from 'framer-motion';
+
+function Waves() {
+  return (
+    <div className="absolute w-screen top-[80vh] z-10 overflow-hidden">
+      <motion.svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 2880 172"
+        preserveAspectRatio="none"
+        className="w-[210vw] h-[175px]"
+        initial={{ x: 0 }}
+        animate={{ x: ['0vw', '-100vw'] }}
+        transition={{
+          ease: 'linear',
+          duration: 8,
+          repeat: Infinity,
+        }}
+      >
+        {/* Path 1 */}
+        <path
+          d="M677.235 125.566C338.718 20.5079 84.0295 65.9611 -1 101.82V0H1440V71.238C1326.79 133.122 1015.75 230.624 677.235 125.566Z"
+          fill="#77A5C2"
+        />
+
+        {/* Path 2 (duplicado para loop infinito) */}
+        <path
+          d="M677.235 125.566C338.718 20.5079 84.0295 65.9611 -1 101.82V0H1440V71.238C1326.79 133.122 1015.75 230.624 677.235 125.566Z"
+          fill="#77A5C2"
+          transform="translate(1375, 0)"
+        />
+      </motion.svg>
+    </div>
+  );
+}
+
+function _Waves() {
+  return (
+    <div className="absolute w-screen top-[80vh] z-10 overflow-hidden">
+      {/* SVG de 2 anchos: viewBox 2880 para contener 2 paths de 1440 cada uno */}
+      <motion.svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 2880 172" // <-- doble ancho
+        preserveAspectRatio="none"
+        className="w-[200vw] h-[175px] block"
+        initial={{ x: '0vw' }}
+        animate={{ x: ['0vw', '-100vw'] }} // se mueve exactamente 1 viewport (100vw)
+        transition={{
+          ease: 'linear',
+          duration: 8,
+          repeat: Infinity,
+        }}
+      >
+        {/* Primera copia en x=0 */}
+        <g transform="translate(0,0)">
+          <path
+            // Le damos un pequeño scaleY para incrementar la "altura" de la curva
+            transform="translate(0,-6) scale(1,1.08)"
+            d="M677.235 125.566C338.718 20.5079 84.0295 65.9611 -1 101.82V0H1440V71.238C1326.79 133.122 1015.75 230.624 677.235 125.566Z"
+            fill="#77A5C2"
+          />
+        </g>
+
+        {/* Segunda copia pegada a la derecha (x = 1440 dentro del viewBox de 2880) */}
+        <g transform="translate(1440,0)">
+          <path
+            transform="translate(0,-6) scale(1,1.08)"
+            d="M677.235 125.566C338.718 20.5079 84.0295 65.9611 -1 101.82V0H1440V71.238C1326.79 133.122 1015.75 230.624 677.235 125.566Z"
+            fill="#77A5C2"
+          />
+        </g>
+      </motion.svg>
+    </div>
   );
 }
 
