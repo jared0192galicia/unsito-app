@@ -48,3 +48,42 @@
 
   --font-jaldi: jaldi;
 }
+
+@keyframes fileone {
+  0% {
+    bottom: 500px;
+    transform: rotate(360deg);
+    display: block;
+  }
+
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes chairAnimation {
+  0% {
+    transform: rotate(5deg);
+  }
+
+  20% {
+    transform: rotate(0deg);
+  }
+
+  40% {
+    transform: rotate(5deg);
+  }
+
+  60% {
+    transform: rotate(0deg);
+  }
+
+  80% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
