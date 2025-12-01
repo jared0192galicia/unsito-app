@@ -1,38 +1,20 @@
 'use client';
 
 import cn from '@/utils/cn';
-import { useEffect } from 'react';
-import api from '@/services/magicFetch';
+import { useEffect, useState } from 'react';
 import { FaNoteSticky, FaUser } from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa';
-// import Menu from '@/components/menuAdmin';
-// import { TbEyeFilled } from 'react-icons/tb';
-// import { FaNoteSticky } from 'react-icons/fa6';
 import Span from '@/components/admin/home/span';
 import Graph from '@/components/admin/home/graph';
 import Greetings from '@/components/admin/home/greetings';
-import useDashboardStore from '@/stores/useDashboardStore';
 import { TbEyeFilled } from 'react-icons/tb';
-// import useDashboardStore from '@/context/useDashboardStore';
 
 export default function Dashboard() {
-  const {
-    messages,
-    visitsTotal,
-    visitsToday,
-    operatingDays,
-
-    setVisits,
-    setMessages,
-    setVisitsToday,
-    setVisitsTotal,
-    setOperatingDays,
-    setVisitsFiltered,
-  } = useDashboardStore();
+  const [operatingDays, setOperatingDays] = useState(0);
+  const { visitsTotal, visitsToday } = { visitsToday: 10, visitsTotal: 20 };
 
   useEffect(() => {
-    // Calcular días desde el 1 de noviembre
-    const startDate = new Date('2025-11-01T00:00:00Z');
+    const startDate = new Date('2025-11-10T00:00:00Z');
     const today = new Date();
     startDate.setUTCHours(0, 0, 0, 0);
     today.setUTCHours(0, 0, 0, 0);
@@ -49,9 +31,7 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       // const response = await api.dashboard.getGeneral();
-
       // const { mensajes, visitas, visitasHoy, visitasTotales } = response.data;
-
       // setVisits(visitas);
       // setVisitsFiltered(visitas);
       // setMessages(mensajes);
@@ -101,7 +81,6 @@ export default function Dashboard() {
           number={128}
           color="#6AA4C8"
           text="Publicaciones"
-          // number={messages}
           icon={FaNoteSticky}
         />
       </div>
@@ -118,27 +97,21 @@ export default function Dashboard() {
           )}
         >
           <Span
-            // number={128}
             span="Publicaciones"
             color="#CF6161"
             className="bg-app-blue-600 text-white"
-            // text="Producto Mas Visto"
             icon={FaNoteSticky}
           />
           <Span
-            // number={168}
             span="Calendario"
             color="#6AA4C8"
-            className="bg-app-blue-600/75"
-            // text="Producto Menos Visto"
+            className="bg-app-blue-600/75 text-white"
             icon={FaNoteSticky}
           />
           <Span
-            // number={168}
             span="Cuentas"
             color="#4FB265"
-            className="bg-app-blue-600/50"
-            // text="Mejor Categoria"
+            className="bg-app-blue-600/50 text-app-blue-800"
             icon={FaNoteSticky}
           />
         </div>

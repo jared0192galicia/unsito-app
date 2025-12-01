@@ -20,15 +20,15 @@ export default function NotFoundPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="text-lg max-w-md text-center text-app-white"
+        className="text-lg md:text-2xl max-w-md text-center pl-20 text-app-white absolute z-50 top-44"
       >
         Parece que esta página se fue por un cafecito universitario ☕…
         <br />
         <Link
           href="/"
           className={cn(
-            'hover:shadow-md hover:shadow-app-blue-600',
-            'transition-all duration-300 font-medium p-5'
+            'hover:shadow-md hover:shadow-cyan-600',
+            'transition-all duration-300 font-medium p-5', 'underline'
           )}
         >
           Pero puedes volver al inicio.

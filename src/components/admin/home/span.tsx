@@ -59,15 +59,14 @@ export default function Span({
 
         <div className="flex items-center justify-center md:justify-start gap-1 mt-1 flex-wrap">
           {number !== undefined && (
-            <span className="text-sm md:text-lg whitespace-nowrap">
-              {' '}
-              {number}{' '}
+            <span className="text-sm md:text-xl whitespace-nowrap text-gray-700">
+              {number}
             </span>
           )}
           {span && (
             <span className="text-sm md:text-lg break-words"> {span} </span>
           )}
-          {stats && <TfiStatsUp className="text-app-blue-900 ml-2" />}
+          {stats && <TfiStatsUp className="text-cyan-600 ml-2" />}
         </div>
       </div>
     </div>
