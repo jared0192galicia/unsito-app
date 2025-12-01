@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import cn from '@/utils/cn';
 
 export default function Navbar() {
-  const [active, setActive] = useState('Noticias');
+  const [active, setActive] = useState('Inicio');
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
 
@@ -13,7 +13,7 @@ export default function Navbar() {
     { name: 'Inicio', path: '/' },
     { name: 'Noticias', path: '/noticias' },
     { name: 'Eventos', path: '#' },
-    { name: 'Calendario', path: '#' },
+    { name: 'Calendario', path: '/calendar' },
   ];
 
   // Detectar scroll
