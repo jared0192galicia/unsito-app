@@ -25,7 +25,7 @@ export default function CalendarPage() {
                         Contenido Temporal de la Vista de Calendario
                     </p>
                     <p className="mt-3 text-md text-gray-500">
-                        Aquí se irá el componente completo del calendario.
+                        Aquí voy poner el calendario.
                     </p>
                 </div>
 
