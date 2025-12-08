@@ -30,13 +30,6 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     try {
-      // const response = await api.dashboard.getGeneral();
-      // const { mensajes, visitas, visitasHoy, visitasTotales } = response.data;
-      // setVisits(visitas);
-      // setVisitsFiltered(visitas);
-      // setMessages(mensajes);
-      // setVisitsToday(visitasHoy);
-      // setVisitsTotal(visitasTotales);
     } catch (error) {
       console.error(error);
     }

@@ -1,3 +1,5 @@
+import Welcome from '@/shared/admin/welcome';
+
 export default function Greetings() {
   function getGreetings(): string {
     const time = new Date().getHours();
@@ -15,9 +17,11 @@ export default function Greetings() {
 
   return (
     <div className="px-11 my-2 ml-10">
-      <span className="text-2xl md:text-4xl font-light">
+      <span className="text-2xl md:text-4xl font-light flex gap-2">
         {getGreetings()}
-        <span className="text-2xl md:text-4xl font-medium">Pachequin 👋</span>
+        <span className="text-2xl md:text-4xl font-medium flex gap-1">
+          Pachequin <Welcome />
+        </span>
       </span>
     </div>
   );
