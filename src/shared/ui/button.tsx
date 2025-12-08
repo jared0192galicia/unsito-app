@@ -16,7 +16,7 @@ export function ControlButton({
   type = 'primary',
 }: ControlButtonProps) {
   const baseStyle = cn(
-    'flex w-full text-center justify-center gap-2 rounded-md text-xs md:text-base cursor-pointer',
+    'flex w-full text-center items-center justify-center gap-2 rounded-md text-xs md:text-base cursor-pointer',
     'px-5 py-2 font-semibold transition-all duration-300 text-white'
   );
 

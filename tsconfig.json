@@ -22,7 +22,7 @@
       "@/*": ["./src/*"],
       "@utils/*": ["./src/utils/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@stores/*": ["./src/stores/*"],
+      "@context/*": ["./src/context/*"],
       "@shared/*": ["./src/shared/*"],
       "@models/*": ["./src/models/*"],
       "@styles/*": ["./src/styles/*"],

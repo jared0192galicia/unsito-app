@@ -1,9 +1,10 @@
-// src/app/page.tsx
-
+'use client';
 import Hero from '@/components/home/hero';
 import NoteTemplate from '../shared/noteTemplate';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
+import Animate from '@/shared/animation';
+import React from 'react';
 
 interface NoteDetails {
   title: string;
@@ -55,15 +56,20 @@ export default function Home() {
       <Hero></Hero>
       <div className="min-h-screen p-8 bg-gray-50">
         {/* Título de la Sección */}
-        <h1 className="text-4xl font-bold mb-12 text-center text-[#79170f]">
-          Últimas noticias
-        </h1>
-
+        <Animate>
+          <h1 className="text-4xl font-bold mb-12 text-center text-[#79170f]">
+            Últimas noticias
+          </h1>
+        </Animate>
         {/* Contenedor del Grid */}
         <div className="max-w-15xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 align-items-center justify-items-center">
             {newsItems.map((note, index) => (
-              <NoteTemplate key={index} note={note} />
+              <React.Fragment key={index}>
+                <Animate>
+                  <NoteTemplate note={note} />
+                </Animate>
+              </React.Fragment>
             ))}
           </div>
         </div>

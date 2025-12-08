@@ -22,7 +22,7 @@ export default function NotFoundPage() {
         transition={{ delay: 0.2, duration: 0.6 }}
         className="text-lg md:text-2xl max-w-md text-center pl-20 text-app-white absolute z-50 top-44"
       >
-        Parece que esta página se fue por un cafecito universitario ☕…
+        Parece que esta página se fue a extra.
         <br />
         <Link
           href="/"
