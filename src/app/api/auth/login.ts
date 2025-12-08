@@ -1,11 +1,11 @@
-import api from '@/services/axios';
+// import api from '@/services/axios';
+import api from '@/services/magicFetch';
 import Cookies from 'js-cookie';
 
 export const login = async (user: string, password: string) => {
   try {
-    const response = await api.post('/sesion/login', {
-      usuario: user,
-      clave: password
+    const response = await api.auth.postLogin({
+      body: { identifier: user, password },
     });
 
     const status: number = response.status;
