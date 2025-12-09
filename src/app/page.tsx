@@ -1,12 +1,10 @@
 // src/app/page.tsx
 
-// 1. IMPORTA TU TEMPLATE DE NOTA
 import Hero from '@/components/home/hero';
 import NoteTemplate from '../shared/noteTemplate';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
 
-// 2. Definición temporal de la interfaz
 interface NoteDetails {
   title: string;
   banner: string;
@@ -15,7 +13,6 @@ interface NoteDetails {
   body: string;
 }
 
-// 3. DATOS DE EJEMPLO (Con variaciones para simular las 4 tarjetas)
 const commonBanner =
   'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB';
 
