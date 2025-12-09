@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Columna 1 - Logo */}
         <div>
           <h2 className="font-['Josefin_Slab'] text-2xl font-semibold">
-            EL UNSITO
+            UNSITO
           </h2>
           <p className="text-sm mt-2 text-gray-300 font-jaldi">
             Periodico digital UNSIS.

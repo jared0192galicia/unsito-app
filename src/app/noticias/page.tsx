@@ -1,18 +1,7 @@
-'use client';
-import Hero from '@/components/home/hero';
-import NoteTemplate from '../shared/noteTemplate';
+import NewsFilterBar from '@/components/notes/tags';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
-import Animate from '@/shared/animation';
-import React from 'react';
-
-interface NoteDetails {
-  title: string;
-  banner: string;
-  type: string;
-  date: string;
-  body: string;
-}
+import NoteTemplate, { NoteDetails } from '@/shared/noteTemplate';
 
 const commonBanner =
   'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB';
@@ -48,28 +37,21 @@ const newsItems: NoteDetails[] = [
   },
 ];
 
-// 4. Modifica el componente principal Home
 export default function Home() {
   return (
     <div className="bg-app-white">
       <Navbar></Navbar>
-      <Hero></Hero>
       <div className="min-h-screen p-8 bg-gray-50">
-        {/* Título de la Sección */}
-        <Animate>
-          <h1 className="text-4xl font-bold mb-12 text-center text-[#79170f]">
-            Últimas noticias
-          </h1>
-        </Animate>
-        {/* Contenedor del Grid */}
+        <h1 className="text-4xl font-bold mb-12 text-center text-[#79170f]">
+          Noticias de la Universidad de la Sierra Sur
+        </h1>
+
+        <NewsFilterBar />
+
         <div className="max-w-15xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 align-items-center justify-items-center">
             {newsItems.map((note, index) => (
-              <React.Fragment key={index}>
-                <Animate>
-                  <NoteTemplate note={note} />
-                </Animate>
-              </React.Fragment>
+              <NoteTemplate key={index} note={note} />
             ))}
           </div>
         </div>
