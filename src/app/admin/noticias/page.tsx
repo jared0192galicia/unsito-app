@@ -9,7 +9,10 @@ import dynamic from 'next/dynamic';
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
+import api from '@/services/magicFetch';
+import FormPage from './form';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
@@ -26,12 +29,33 @@ interface NewNote {
 }
 
 export default function NuevaNoticiaPage() {
+  const [data, setData] = useState([]);
   const [content, setContent] = useState('');
+  const [showForm, setShowForm] = useState<boolean>(false);
 
-  const handleDiscard = () => {}
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response: AxiosResponse = await api.admin.getNotes();
+      console.log('🚀 ~ response:', response.data);
+      setData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDiscard = () => {};
+  const handleCreate = () => setShowForm(true);
 
   return (
-    <section className="min-h-screen bg-app-soft-white px-6 py-10">
+    <section
+      className={cn('min-h-screen bg-app-soft-white py-10', {
+        'px-6': !showForm,
+      })}
+    >
       <div className="flex gap-4 bg-white p-3 my-3 px-3 rounded-lg">
         <Button variant="discard" onClick={handleDiscard}>
           <Trash2 /> Eliminar
@@ -41,14 +65,14 @@ export default function NuevaNoticiaPage() {
           <Pencil /> Editar
         </Button>
 
-        <Button variant="save" onClick={handleDiscard}>
+        <Button variant="save" onClick={handleCreate}>
           <PlusCircle /> Crear
         </Button>
       </div>
       <div>
         <DataTable
-          value={[]}
-          scrollHeight='400'
+          value={data}
+          scrollHeight="400"
           emptyMessage="No hay noticias disponibles."
           rows={5}
           dataKey="id"
@@ -65,6 +89,15 @@ export default function NuevaNoticiaPage() {
           <Column field="email" header="Correo" sortable filter />
           <Column field="country" header="País" sortable filter />
         </DataTable>
+      </div>
+
+      <div
+        className={cn(
+          'hidden bg-app-soft-white absolute top-0 wscreen h-full',
+          { block: showForm }
+        )}
+      >
+        <FormPage close={()=>setShowForm(false)} />
       </div>
     </section>
   );

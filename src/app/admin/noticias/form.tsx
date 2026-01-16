@@ -1,12 +1,15 @@
 'use client';
 
+import api from '@/services/magicFetch';
 import Button from '@/shared/ui/adminButton';
 import { ControlButton } from '@/shared/ui/button';
 import Input from '@/shared/ui/input';
 import cn from '@/utils/cn';
+import { AxiosResponse } from 'axios';
+import { body } from 'framer-motion/client';
 import { FileBox, Save, Trash2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SiGooglegemini } from 'react-icons/si';
 
 const Editor = dynamic(
@@ -15,38 +18,64 @@ const Editor = dynamic(
 );
 
 interface NewNote {
-  title?: string;
-  content?: string;
-  description?: string;
-  date?: string;
-  tags?: string[];
-  banner?: string;
+  title: string;
+  content: string;
+  description: string;
+  date: string;
+  tags: string[];
+  banner: string;
 }
 
-export default function NuevaNoticiaPage() {
-  const [content, setContent] = useState('');
-  const [_form, setForm] = useState<NewNote>({});
+export default function FormPage({ close }: any) {
+  // const [content, setContent] = useState('');
+  const [tags, setTags] = useState([]);
+  const [form, setForm] = useState<NewNote>({
+    title: '',
+    content: '',
+    description: '',
+    date: '',
+    tags: [''],
+    banner: '',
+  });
+
+  useEffect(() => {
+    fetchOptions();
+  }, []);
 
   const handleChange = (name: string, value: string) =>
     setForm((prev) => ({ ...prev, [name]: value }));
 
+  const fetchOptions = async () => {
+    try {
+      const response: AxiosResponse = await api.site.getTags();
+      console.log('🚀 ~ response:', response.data);
+      setTags(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleDiscard = () => {
     if (confirm('¿Seguro que deseas descartar los cambios?')) {
-      setContent('');
+      close();
     }
   };
 
   const handleSaveDraft = () => {
-    console.log('Guardando como borrador:', content);
+    console.log(form);
   };
 
-  const handleSave = () => {
-    console.log('Guardando noticia:', content);
+  const handleSave = async () => {
+    try {
+      const response: AxiosResponse = await api.admin.postNew({ body: form });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-app-soft-white px-6 py-10">
-      <h1 className="text-3xl font-bold text-app-blue-900 mb-6">
+    <div className="min-hscreen w-screen bg-app-soft-white px-6 py-10">
+      <h1 className="text-3xl font-bold text-app-blue-900 mb6">
         Crear nueva noticia
       </h1>
 
@@ -69,13 +98,13 @@ export default function NuevaNoticiaPage() {
             label="Revisar"
             type="primary"
             onClick={handleDiscard}
-            icon={<SiGooglegemini className='text-xl' />}
+            icon={<SiGooglegemini className="text-xl" />}
           />
           <ControlButton
             label="Sugerencias"
             type="primary"
             onClick={handleDiscard}
-            icon={<SiGooglegemini className='text-xl' />}
+            icon={<SiGooglegemini className="text-xl" />}
           />
         </div>
       </div>
@@ -125,8 +154,8 @@ export default function NuevaNoticiaPage() {
           )}
         >
           <Editor
-            value={content}
-            onTextChange={(e) => setContent(e.htmlValue ?? '')}
+            value={form.content}
+            onTextChange={(e) => handleChange('content', e.htmlValue ?? '')}
             style={{ height: '450px' }}
             placeholder="Escribe el contenido de la noticia aquí..."
             className="border border-app-blue-700/30 rounded-md"
