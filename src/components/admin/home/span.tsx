@@ -12,6 +12,7 @@ export default function Span({
   image,
   number,
   className,
+  onClick,
 }: {
   text?: string;
   span?: string;
@@ -21,6 +22,7 @@ export default function Span({
   image?: string;
   stats?: boolean;
   number?: number;
+  onClick?: any;
 }) {
   const IconComponent = icon;
 
@@ -29,8 +31,10 @@ export default function Span({
       className={cn(
         'bg-app-gray-700/10 flex flex-col md:flex-row',
         'items-center w-full max-w-xs min-h-[7rem] gap-2 rounded-lg p-4',
-        className
+        className,
+        { 'cursor-pointer': onClick }
       )}
+      onClick={onClick}
     >
       <div className="flex w-full md:w-2/5 items-center justify-center">
         <div
