@@ -1,16 +1,17 @@
 'use client';
 
-import api from '@/services/magicFetch';
-import Button from '@/shared/ui/adminButton';
-import { ControlButton } from '@/shared/ui/button';
-import Input from '@/shared/ui/input';
-import cn from '@/utils/cn';
-import { AxiosResponse } from 'axios';
-import { body } from 'framer-motion/client';
 import { FileBox, Save, Trash2 } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { ControlButton } from '@/shared/ui/button';
 import { SiGooglegemini } from 'react-icons/si';
+import Button from '@/shared/ui/adminButton';
+import { useEffect, useState } from 'react';
+import api from '@/services/magicFetch';
+import { AxiosResponse } from 'axios';
+import Input from '@/shared/ui/input';
+import dynamic from 'next/dynamic';
+import cn from '@/utils/cn';
+import { Calendar } from 'primereact/calendar';
+import { Nullable } from 'primereact/ts-helpers';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
@@ -21,7 +22,7 @@ interface NewNote {
   title: string;
   content: string;
   description: string;
-  date: string;
+  dateRange: Date[] | Nullable;
   tags: string[];
   banner: string;
 }
@@ -33,7 +34,7 @@ export default function FormPage({ close }: any) {
     title: '',
     content: '',
     description: '',
-    date: '',
+    dateRange: [],
     tags: [''],
     banner: '',
   });
@@ -128,12 +129,19 @@ export default function FormPage({ close }: any) {
             label="Descripcion"
             name="description"
           />
-          <Input
+          {/* <Input
             className="text-app-gray-800 border-none"
             change={handleChange}
             label="Fecha"
             name="date"
-          />
+          /> */}
+          {/* <Calendar
+            value={form.dateRange}
+            selectionMode="range"
+            onChange={(e) => {
+              handleChange('dateRange', e.target.value[]);
+            }}
+          ></Calendar> */}
           <Input
             className="text-app-gray-800 border-none"
             change={handleChange}
