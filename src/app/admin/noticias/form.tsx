@@ -68,7 +68,7 @@ export default function FormPage({ close }: any) {
 
   const handleSave = async () => {
     try {
-      const response: AxiosResponse = await api.admin.postNew({ body: form });
+      // const response: AxiosResponse = await api.admin.postNew({ body: form });
     } catch (error) {
       console.log(error);
     }
