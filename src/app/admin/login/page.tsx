@@ -1,10 +1,30 @@
 'use client';
+import { login } from '@/app/api/auth/login';
 import { ControlButton } from '@/shared/ui/button';
 import Input from '@/shared/ui/input';
 import cn from '@/utils/cn';
 import { Lock, User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+type LoginForm = {
+  user: string;
+  password: string;
+};
 
 export default function Login() {
+  const [form, setForm] = useState<LoginForm>({ password: '', user: '' });
+  const router = useRouter();
+
+  const handleChange = (key: string, value: string) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleLogin = async () => {
+    if (await login(form.user, form.password)) {
+      router.push('/admin/home');
+    }
+  };
+
   return (
     <div className="relative w-screen h-screen bg-app-white overflow-hidden flex">
       <div className="flex-1 flex items-center justify-center relative z-10">
@@ -24,7 +44,7 @@ export default function Login() {
             name="user"
             placeholder="ejemplo@gmail.com"
             icon={<User size={16} />}
-            change={() => {}}
+            change={handleChange}
           />
 
           <div>
@@ -34,7 +54,7 @@ export default function Login() {
               placeholder="Contraseña"
               type="password"
               icon={<Lock size={16} />}
-              change={() => {}}
+              change={handleChange}
             />
             <span
               className={cn(
@@ -46,7 +66,7 @@ export default function Login() {
               ¿Olvidaste tu Contraseña?
             </span>
           </div>
-          <ControlButton label="Entrar" type="primary" />
+          <ControlButton label="Entrar" type="primary" onClick={handleLogin} />
         </section>
       </div>
 
@@ -58,7 +78,7 @@ export default function Login() {
       ></div>
 
       <div className="hidden md:flex flex-1 flex-col items-center justify-center pr-16 relative z-10">
-        <h1 className="text-5xl font-serif text-[#1E3A54]">EL UNSITO</h1>
+        <h1 className="text-5xl font-serif text-[#1E3A54]">UNSITO</h1>
         <span className="text-2xl mt-2 text-[#1E3A54] opacity-80">
           Administración
           <div

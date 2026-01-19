@@ -8,10 +8,12 @@ import Span from '@/components/admin/home/span';
 import Graph from '@/components/admin/home/graph';
 import Greetings from '@/components/admin/home/greetings';
 import { TbEyeFilled } from 'react-icons/tb';
+import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const [operatingDays, setOperatingDays] = useState(0);
   const { visitsTotal, visitsToday } = { visitsToday: 10, visitsTotal: 20 };
+  const router = useRouter();
 
   useEffect(() => {
     const startDate = new Date('2025-11-10T00:00:00Z');
@@ -30,13 +32,6 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     try {
-      // const response = await api.dashboard.getGeneral();
-      // const { mensajes, visitas, visitasHoy, visitasTotales } = response.data;
-      // setVisits(visitas);
-      // setVisitsFiltered(visitas);
-      // setMessages(mensajes);
-      // setVisitsToday(visitasHoy);
-      // setVisitsTotal(visitasTotales);
     } catch (error) {
       console.error(error);
     }
@@ -101,6 +96,7 @@ export default function Dashboard() {
             color="#CF6161"
             className="bg-app-blue-600 text-white"
             icon={FaNoteSticky}
+            onClick={() => router.push('/admin/noticias')}
           />
           <Span
             span="Calendario"
