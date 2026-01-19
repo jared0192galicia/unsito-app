@@ -50,7 +50,7 @@ export interface Post {
  */
 export async function getAllNotes() {
   try {
-    const response = await api.get('site/notes');
+    const response = await api.get('/site/notes');
     return response.data as Post[];
   } catch (error) {
     console.error('Error al obtener las noticias:', error);
@@ -63,7 +63,7 @@ export async function getAllNotes() {
  */
 export async function getNoteById(id: number) {
   try {
-    const response = await api.get(`site/notes/${id}`);
+    const response = await api.get(`/site/notes/${id}`);
     return response.data as Post;
   } catch (error) {
     console.error(`Error al obtener la noticia ${id}:`, error);
@@ -76,7 +76,7 @@ export async function getNoteById(id: number) {
  */
 export async function getAllCategories() {
   try {
-    const response = await api.get('site/tags');
+    const response = await api.get('/site/tags');
     return response.data as Category[];
   } catch (error) {
     console.error('Error al obtener las categorías:', error);
@@ -89,7 +89,7 @@ export async function getAllCategories() {
  */
 export async function getNotesByCategory(categoryId: number) {
   try {
-    const response = await api.get(`site/tags/${categoryId}/notes`);
+    const response = await api.get(`/site/tags/${categoryId}/notes`);
     return response.data as Post[];
   } catch (error) {
     console.error(`Error al obtener noticias de la categoría ${categoryId}:`, error);
