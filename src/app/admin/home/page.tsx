@@ -47,7 +47,7 @@ export default function Dashboard() {
         className={cn(
           'justify-items-center py-4 gap-5',
           'grid grid-cols-2 px-10 md:gap-7',
-          'w-full md:flex md:justify-center'
+          'w-full md:flex md:justify-center',
         )}
       >
         <Span
@@ -88,7 +88,7 @@ export default function Dashboard() {
         <div
           className={cn(
             'w-full lg:w-1/5 flex flex-row',
-            'lg:flex-col gap-5 justify-center'
+            'lg:flex-col gap-5 justify-center',
           )}
         >
           <Span
@@ -109,6 +109,7 @@ export default function Dashboard() {
             color="#4FB265"
             className="bg-app-blue-600/50 text-app-blue-800"
             icon={FaNoteSticky}
+            onClick={() => router.push('/admin/cuentas')}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-// src/app/page.tsx
+'use client';
 
 import Hero from '@/components/home/hero';
 import NoteTemplate from '../shared/noteTemplate';
