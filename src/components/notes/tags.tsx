@@ -1,35 +1,63 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import cn from '@/utils/cn';
+import { useCategories } from '@/hooks/useNotes';
 
-const TAGS = [
-  'Todo',
-  'Academia',
-  'Cultura',
-  'Deportes',
-  'Comunidad',
-  'Eventos',
-] as const;
+interface NewsFilterBarProps {
+  onCategoryChange?: (categoryId: number | null) => void;
+  onSearchChange?: (search: string) => void;
+}
 
-export default function NewsFilterBar() {
-  const [selectedTag, setSelectedTag] =
-    useState<(typeof TAGS)[number]>('Todo');
+export default function NewsFilterBar({ onCategoryChange, onSearchChange }: NewsFilterBarProps) {
+  const { categories, loading } = useCategories();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [search, setSearch] = useState('');
+
+  // Añade opción "Todo" al inicio
+  const categoryOptions = useMemo(
+    () => [{ id: null, name: 'Todo' }, ...categories],
+    [categories]
+  );
+
+  const handleCategoryChange = (categoryId: number | null) => {
+    setSelectedCategoryId(categoryId);
+    onCategoryChange?.(categoryId);
+  };
+
+  const handleSearch = (value: string) => {
+    setSearch(value);
+    onSearchChange?.(value);
+  };
+
+  if (loading) {
+    return (
+      <div className="w-full my-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex gap-2">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="h-10 w-24 rounded-xl bg-gray-200 animate-pulse"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full my-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       {/* TAGS */}
       <div className="flex flex-wrap gap-3 relative">
-        {TAGS.map((tag) => {
-          const isActive = selectedTag === tag;
+        {categoryOptions.map((category) => {
+          const isActive = selectedCategoryId === category.id;
 
           return (
             <button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
+              key={category.id ?? 'all'}
+              onClick={() => handleCategoryChange(category.id)}
               className={cn(
                 'relative px-4 py-2 rounded-xl border transition-all text-sm cursor-pointer overflow-hidden',
                 'hover:shadow-sm hover:-translate-y-[1px]',
@@ -52,7 +80,7 @@ export default function NewsFilterBar() {
                   isActive ? 'text-gray-900 font-medium' : 'text-gray-600'
                 )}
               >
-                {tag}
+                {category.name}
               </span>
             </button>
           );
@@ -67,7 +95,7 @@ export default function NewsFilterBar() {
             type="text"
             placeholder="Buscar..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             className="w-full bg-transparent outline-none text-gray-700"
           />
         </div>

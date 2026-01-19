@@ -1,43 +1,47 @@
+'use client';
+
+import { useState, useMemo } from 'react';
 import NewsFilterBar from '@/components/notes/tags';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
 import NoteTemplate, { NoteDetails } from '@/shared/noteTemplate';
-
-const commonBanner =
-  'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB';
-
-const newsItems: NoteDetails[] = [
-  {
-    title: 'XVII Semana de las Culturas de la Sierra Sur',
-    banner: commonBanner,
-    type: 'Evento Cultural',
-    date: 'Del 12 al 17 de octubre de 2025',
-    body: 'La Universidad de la Sierra Sur hace una cordial invitación a la comunidad universitaria y público en general a participar en las actividades de la XVII Semana de las Culturas de la Sierra Sur, que se  celebrará del 12 al 17 de octubre de 2025. \n Evento gratuito. Asiste y celebra nuestras culturas con música, danza, artesanías, conferencias, exposiciones y gastronomía de nuestra región.',
-  },
-  {
-    title: 'Convocatoria de Becas para Ingeniería',
-    banner: commonBanner,
-    type: 'Académico',
-    date: 'Vence el 30 de noviembre',
-    body: 'Abierta la convocatoria para becas de apoyo a estudiantes de la carrera de Ingeniería en los Sistemas de Información.',
-  },
-  {
-    title: 'Resultados del Torneo Deportivo UNIS',
-    banner: commonBanner,
-    type: 'Deportes',
-    date: 'Publicado: 15 de noviembre',
-    body: 'Revisa la tabla final de posiciones y los ganadores del torneo de fútbol y básquetbol interuniversitario 2025.',
-  },
-  {
-    title: 'Nuevo Protocolo de Seguridad COVID-19',
-    banner: commonBanner,
-    type: 'Avisos',
-    date: 'Efectivo: 1 de diciembre',
-    body: 'La rectoría anuncia la actualización del protocolo de seguridad sanitaria en todas las instalaciones universitarias.',
-  },
-];
+import { useNotes, useNotesByCategory } from '@/hooks/useNotes';
 
 export default function Home() {
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Obtener notas según la categoría seleccionada
+  const { notes: notesByCategory, loading: categoryLoading } = useNotesByCategory(selectedCategoryId);
+  const { notes: allNotes, loading: allLoading } = useNotes();
+
+  const notes = selectedCategoryId ? notesByCategory : allNotes;
+  const loading = selectedCategoryId ? categoryLoading : allLoading;
+
+  // Filtrar por búsqueda
+  const filteredNotes = useMemo(() => {
+    return notes.filter((note) => {
+      const matchesSearch = 
+        note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        note.description.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesSearch;
+    });
+  }, [notes, searchQuery]);
+
+  // Convertir datos de la API al formato esperado por NoteTemplate
+  const newsItems: NoteDetails[] = filteredNotes.map((note) => ({
+    id: note.id,
+    title: note.title,
+    banner: note.banner?.path || 'https://via.placeholder.com/600x400?text=Sin+imagen',
+    type: note.contentType,
+    date: new Date(note.createdAt).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    body: note.content || note.description,
+  }));
+
   return (
     <div className="bg-app-white">
       <Navbar></Navbar>
@@ -46,15 +50,34 @@ export default function Home() {
           Noticias de la Universidad de la Sierra Sur
         </h1>
 
-        <NewsFilterBar />
+        <NewsFilterBar 
+          onCategoryChange={setSelectedCategoryId}
+          onSearchChange={setSearchQuery}
+        />
 
-        <div className="max-w-15xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 align-items-center justify-items-center">
-            {newsItems.map((note, index) => (
-              <NoteTemplate key={index} note={note} />
-            ))}
+        {loading ? (
+          <div className="max-w-15xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-96 rounded-lg bg-gray-200 animate-pulse" />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : newsItems.length > 0 ? (
+          <div className="max-w-15xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 align-items-center justify-items-center">
+              {newsItems.map((note) => (
+                <NoteTemplate key={note.id} note={note} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="max-w-15xl mx-auto text-center py-12">
+            <p className="text-gray-500 text-lg">
+              No se encontraron noticias
+            </p>
+          </div>
+        )}
       </div>
       <Footer></Footer>
     </div>
