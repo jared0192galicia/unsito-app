@@ -1,7 +1,10 @@
-// src/app/noticias/[id]/page.tsx
+// src/app/noticia/[id]/page.tsx
+'use client';
 
+import { useEffect } from 'react';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
+import { useNoteById } from '@/hooks/useNotes';
 
 // Definición de la interfaz de props para capturar el ID de la URL
 interface NoticiaPageProps {
@@ -10,20 +13,51 @@ interface NoticiaPageProps {
   };
 }
 
-// Datos de la noticia (deberían venir de una llamada al servicio usando params.id)
-const newsData = {
-  title: 'XVII Semana de las Culturas de la Sierra Sur',
-  banner: 'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB',
-  type: 'Deportes', // Usamos Deportes, como se ve en la imagen original de la tarjeta
-  date: 'Del 12 al 17 de octubre',
-  body_intro: 'La Universidad de la Sierra Sur hace una cordial invitación a la comunidad universitaria y público en general a participar en las actividades de la XVII Semana de las Culturas de la Sierra Sur, que se celebrará del 12 al 17 de octubre de 2025.',
-  body_detail: 'Durante esta edición, contaremos con la presencia de artesanos, investigadores, músicos y portadores de tradición de diversos municipios de la Sierra Sur, quienes compartirán sus saberes y expresiones artísticas a través de talleres, charlas y demostraciones en vivo. La Semana de las Culturas busca fortalecer el reconocimiento de nuestra identidad regional, promover el diálogo intercultural y brindar un espacio donde la comunidad pueda convivir, aprender y valorar la riqueza cultural que nos distingue. Te invitamos a formar parte de esta celebración y a disfrutar de un programa pensado para todas las edades. ¡Acompáñanos y vive la diversidad cultural que da vida a nuestra universidad y a nuestra región!',
-};
-
-
 export default function NoticiaPage({ params }: NoticiaPageProps) {
-    const newsId = params.id;
-    // console.log("ID de la noticia:", newsId); // Para fines de depuración
+    const noteId = parseInt(params.id, 10);
+    const { notes, loading, error } = useNoteById(noteId || null);
+    const note = notes[0];
+
+    if (loading) {
+      return (
+        <div className="bg-app-white min-h-screen">
+          <Navbar />
+          <main className="pt-10 pb-20 px-4 flex flex-col items-center">
+            <div className="w-full max-w-5xl">
+              <div className="h-64 bg-gray-200 rounded-lg animate-pulse mb-4" />
+              <div className="h-12 bg-gray-200 rounded animate-pulse mb-4" />
+              <div className="h-32 bg-gray-200 rounded animate-pulse" />
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (error || !note) {
+      return (
+        <div className="bg-app-white min-h-screen">
+          <Navbar />
+          <main className="pt-10 pb-20 px-4 flex flex-col items-center">
+            <div className="w-full max-w-5xl text-center">
+              <h1 className="text-2xl font-bold text-red-600 mb-4">
+                Error al cargar la noticia
+              </h1>
+              <p className="text-gray-600">
+                {error?.message || 'La noticia no fue encontrada'}
+              </p>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    const formattedDate = new Date(note.createdAt).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
 
     return (
         <div className="bg-app-white min-h-screen">
@@ -37,7 +71,7 @@ export default function NoticiaPage({ params }: NoticiaPageProps) {
 
                     {/* TÍTULO PRINCIPAL CENTRADO */}
                     <h1 className="text-4xl md:text-5xl font-extrabold mb-10 text-[#79170f] text-center">
-                        {newsData.title}
+                        {note.title}
                     </h1>
 
                     {/* SECCIÓN DE IMAGEN Y TEXTO INTRODUCTORIO (Grid/Flex) */}
@@ -46,19 +80,19 @@ export default function NoticiaPage({ params }: NoticiaPageProps) {
                         {/* 1. Imagen (Incluyendo Metadatos) */}
                         <div className="relative">
                             <img 
-                                src={newsData.banner} 
-                                alt={newsData.title} 
+                                src={note.banner?.path || 'https://via.placeholder.com/600x400?text=Sin+imagen'} 
+                                alt={note.title} 
                                 className="w-full h-auto rounded-lg shadow-lg"
                             />
                             {/* Metadatos sobre la Imagen (Tipo y Fecha) */}
                             <div className="absolute top-4 left-4 flex gap-4 text-white font-semibold">
                                 {/* Tipo (Etiqueta azul/gris) */}
                                 <span className="bg-[#77a5c2] px-3 py-1 text-sm rounded-full">
-                                    {newsData.type}
+                                    {note.contentType}
                                 </span>
                                 {/* Fecha */}
                                 <span className="bg-black bg-opacity-50 px-3 py-1 text-sm rounded-full">
-                                    {newsData.date}
+                                    {formattedDate}
                                 </span>
                             </div>
                         </div>
@@ -66,24 +100,68 @@ export default function NoticiaPage({ params }: NoticiaPageProps) {
                         {/* 2. Párrafo Introductorio (Lado derecho de la imagen) */}
                         <div className="flex flex-col justify-between">
                             <p className="text-lg text-gray-700 leading-relaxed">
-                                {newsData.body_intro}
+                                {note.description}
                             </p>
-                            <p className="mt-4 text-base text-gray-600 italic">
-                                Evento gratuito. Asiste y celebra nuestras culturas con música, danza, artesanías, conferencias, exposiciones y gastronomía de nuestra región.
-                            </p>
+                            {note.author && (
+                              <p className="mt-4 text-base text-gray-600 italic">
+                                Autor: {note.author.name} {note.author.surName}
+                              </p>
+                            )}
                         </div>
                     </div>
 
                     {/* CUERPO PRINCIPAL DEL ARTÍCULO */}
                     <div className="mt-10 border-t border-gray-200 pt-8">
                         <p className="text-lg text-gray-800 leading-relaxed mb-6">
-                            {newsData.body_detail}
+                            {note.content}
                         </p>
                         
-                        {/* ENLACE "CONSULTA MÁS INFORMACIÓN" */}
-                        <p className="mt-8 text-md text-gray-600">
-                            Consulta más información en <a href="#" className="text-[#79170f] font-semibold hover:underline">aquí</a>.
-                        </p>
+                        {/* CATEGORÍAS */}
+                        {note.categories && note.categories.length > 0 && (
+                          <div className="mt-8 flex flex-wrap gap-2">
+                            <span className="font-semibold text-gray-700">Categorías:</span>
+                            {note.categories.map((pc) => (
+                              <span
+                                key={pc.categoryId}
+                                className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                              >
+                                {pc.category.name}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {/* GALERÍA DE IMÁGENES */}
+                        {note.galleryImages && note.galleryImages.length > 0 && (
+                          <div className="mt-10">
+                            <h3 className="text-2xl font-bold mb-4 text-gray-800">Galería</h3>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                              {note.galleryImages.map((img) => (
+                                <img
+                                  key={img.id}
+                                  src={img.path}
+                                  alt={img.altText || 'Imagen de galería'}
+                                  className="w-full h-64 object-cover rounded-lg"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* ARCHIVO ADJUNTO */}
+                        {note.attachment && (
+                          <div className="mt-8 p-4 bg-gray-100 rounded-lg">
+                            <p className="text-gray-700 font-semibold mb-2">Archivo adjunto:</p>
+                            <a
+                              href={note.attachment.path}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline"
+                            >
+                              {note.attachment.filename}
+                            </a>
+                          </div>
+                        )}
                     </div>
                     
                 </article>

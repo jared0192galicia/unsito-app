@@ -3,6 +3,7 @@
 import React from 'react';
 
 export interface NoteDetails {
+  id?: number;
   title: string;
   banner: string;
   type: string;
@@ -46,7 +47,7 @@ const NoteTemplate: React.FC<{ note: NoteDetails }> = ({ note }) => {
 
         {/* Enlace "Leer más" */}
         <a
-          href="#"
+          href={note.id ? `/noticia/${note.id}` : '#'}
           className="flex items-center text-xs sm:text-sm font-semibold text-[#77a5c2] hover:text-[#5e8399] transition duration-150"
         >
           Leer más →
