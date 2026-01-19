@@ -47,7 +47,7 @@ export default function FormPage({ user, close }: { user: User | null; close: ()
     { id: 2, name: 'editor' },
   ]);
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = (name: string, value: any) => {
     setForm((prev) => ({ ...prev, [name]: value }));
     setError(''); // Limpiar error al escribir
   };
