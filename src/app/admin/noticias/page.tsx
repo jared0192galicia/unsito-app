@@ -30,7 +30,7 @@ interface NewNote {
 
 export default function NuevaNoticiaPage() {
   const [data, setData] = useState([]);
-  const [content, setContent] = useState('');
+  const [selectNotes, setSelectNotes] = useState([]);
   const [showForm, setShowForm] = useState<boolean>(false);
 
   useEffect(() => {
@@ -52,11 +52,11 @@ export default function NuevaNoticiaPage() {
 
   return (
     <section
-      className={cn('min-h-screen bg-app-soft-white py-10', {
+      className={cn('min-h-screen bg-app-soft-white pt-2', {
         'px-6': !showForm,
       })}
     >
-      <div className="flex gap-4 bg-white p-3 my-3 px-3 rounded-lg">
+      <div className="flex gap-4 bg-white p-3 my-4 px-3 rounded-lg">
         <Button variant="discard" onClick={handleDiscard}>
           <Trash2 /> Eliminar
         </Button>
@@ -69,15 +69,16 @@ export default function NuevaNoticiaPage() {
           <PlusCircle /> Crear
         </Button>
       </div>
-      <div>
+      <div className={cn({'hidden': showForm})}>
         <DataTable
           value={data}
-          scrollHeight="400"
+          scrollHeight="600px"
           emptyMessage="No hay noticias disponibles."
           rows={5}
           dataKey="id"
-          // selection={selectedUsers}
-          // onSelectionChange={(e) => setSelectedUsers(e.value as User[])}
+          selection={selectNotes}
+          selectionMode={'multiple'}
+          onSelectionChange={(e) => setSelectNotes(e.value)}
           // globalFilter={globalFilter}
           stripedRows
           tableStyle={{ minWidth: '40rem' }}

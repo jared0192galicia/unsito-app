@@ -18,6 +18,7 @@ import { BiCloset } from 'react-icons/bi';
 import { CgClose } from 'react-icons/cg';
 import ImagePicker from '@/shared/ui/imagePicker';
 import { useNotificationStore } from '@/context/useNotificationStore';
+import { stringify } from 'node:querystring';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
@@ -34,8 +35,8 @@ interface NewNote {
 }
 
 export default function FormPage({ close }: any) {
-  // const [content, setContent] = useState('');
   const [tags, setTags] = useState([]);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   const [form, setForm] = useState<NewNote>({
     tittle: '',
     content: '',
@@ -70,17 +71,16 @@ export default function FormPage({ close }: any) {
     }
   };
 
-  const handleSaveDraft = () => {
-    console.log(form);
-  };
-
-  const makeBody = (): {
+  const makeBody = (
+    publish: boolean,
+  ): {
     title: string;
     content: string;
     description: string;
     date: string;
     banner: any;
     tags: number[];
+    publish: boolean;
   } => {
     const date = form.dateRange?.map((d) => d?.toISOString()).join(' - ') || '';
     const tags = form.tags.map((tag: any) => tag.id);
@@ -89,15 +89,16 @@ export default function FormPage({ close }: any) {
       content: form.content,
       description: form.description,
       banner: form.banner,
+      publish,
       tags,
       date,
     };
   };
 
-  const handleSave = async () => {
+  const handleReview = async () => {
     try {
-      const response: AxiosResponse = await api.admin.postNew({
-        body: makeBody(),
+      const response: AxiosResponse = await api.admin.getGeminiReview({
+        param: stringify(makeBody(true)),
       });
       pushNotification({
         title: 'Guardado',
@@ -105,6 +106,51 @@ export default function FormPage({ close }: any) {
         type: 'success',
         duration: 4_000,
       });
+    } catch (error) {
+      console.log(error);
+      pushNotification({
+        title: 'Error',
+        description: 'Error al guaradar la publicación',
+        type: 'error',
+        duration: 4_000,
+      });
+    }
+  };
+
+  const handleSuggest = async () => {
+    try {
+      const response: AxiosResponse = await api.admin.getGeminiSuggest({
+        param: stringify(makeBody(true)),
+      });
+      pushNotification({
+        title: 'Guardado',
+        description: 'Publicación guarada correctamente',
+        type: 'success',
+        duration: 4_000,
+      });
+    } catch (error) {
+      console.log(error);
+      pushNotification({
+        title: 'Error',
+        description: 'Error al guaradar la publicación',
+        type: 'error',
+        duration: 4_000,
+      });
+    }
+  };
+
+  const handleSave = async (type: 'public' | 'eraser') => {
+    try {
+      const response: AxiosResponse = await api.admin.postNew({
+        body: makeBody(type === 'public'),
+      });
+      pushNotification({
+        title: 'Guardado',
+        description: 'Publicación guarada correctamente',
+        type: 'success',
+        duration: 4_000,
+      });
+      setIsSaved(true);
     } catch (error) {
       console.log(error);
       pushNotification({
@@ -136,25 +182,25 @@ export default function FormPage({ close }: any) {
             <Trash2 /> Descartar
           </Button>
 
-          <Button variant="draft" onClick={handleSaveDraft}>
+          <Button variant="draft" onClick={()=> handleSave('eraser')}>
             <FileBox /> Guardar borrador
           </Button>
 
-          <Button variant="save" onClick={handleSave}>
-            <Save /> Guardar
+          <Button variant="save" onClick={()=> handleSave('public')}>
+            <Save /> Publicar
           </Button>
         </div>
         <div className="flex gap-4">
           <ControlButton
             label="Revisar"
             type="primary"
-            onClick={handleDiscard}
+            onClick={handleReview}
             icon={<SiGooglegemini className="text-xl" />}
           />
           <ControlButton
             label="Sugerencias"
             type="primary"
-            onClick={handleDiscard}
+            onClick={handleSuggest}
             icon={<SiGooglegemini className="text-xl" />}
           />
         </div>

@@ -1,3 +1,4 @@
+import cn from '@/utils/cn';
 import { useRef, useState } from 'react';
 
 interface ImagePickerProps {
@@ -47,11 +48,9 @@ export default function ImagePicker({ onChange }: ImagePickerProps) {
 
         <button
           type="button"
-          className="
-            text-sm font-medium
-            text-blue-600
-            hover:text-blue-700
-          "
+          className={cn(
+            'text-sm font-medium text-blue-600 hover:text-blue-700', 'hover:underline cursor-pointer'
+          )}
         >
           Examinar
         </button>
