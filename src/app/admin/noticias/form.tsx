@@ -17,6 +17,7 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { BiCloset } from 'react-icons/bi';
 import { CgClose } from 'react-icons/cg';
 import ImagePicker from '@/shared/ui/imagePicker';
+import { useNotificationStore } from '@/context/useNotificationStore';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
@@ -43,6 +44,8 @@ export default function FormPage({ close }: any) {
     tags: [],
     banner: '',
   });
+
+  const pushNotification = useNotificationStore((s) => s.push);
 
   useEffect(() => {
     fetchOptions();
@@ -79,9 +82,7 @@ export default function FormPage({ close }: any) {
     banner: any;
     tags: number[];
   } => {
-    const date = form.dateRange
-      ?.map((d) => d?.toISOString())
-      .join(' - ') || '';
+    const date = form.dateRange?.map((d) => d?.toISOString()).join(' - ') || '';
     const tags = form.tags.map((tag: any) => tag.id);
     return {
       title: form.tittle,
@@ -98,10 +99,20 @@ export default function FormPage({ close }: any) {
       const response: AxiosResponse = await api.admin.postNew({
         body: makeBody(),
       });
-      // console.log("🚀 ~ response:", response)
-      console.log('🚀 ~ form:', makeBody());
+      pushNotification({
+        title: 'Guardado',
+        description: 'Publicación guarada correctamente',
+        type: 'success',
+        duration: 4_000,
+      });
     } catch (error) {
       console.log(error);
+      pushNotification({
+        title: 'Error',
+        description: 'Error al guaradar la publicación',
+        type: 'error',
+        duration: 4_000,
+      });
     }
   };
 

@@ -4,6 +4,7 @@ import "./globals.css";
 import "primereact/resources/themes/lara-light-cyan/theme.css"; 
 import "primereact/resources/primereact.min.css";              
 import "primeicons/primeicons.css";                            
+import Notifications from "@/shared/notifications";
 
 
 const geistSans = Geist({
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Notifications />
       </body>
     </html>
   );
