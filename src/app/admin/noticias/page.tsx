@@ -85,19 +85,19 @@ export default function NuevaNoticiaPage() {
           <Column selectionMode="single" headerStyle={{ width: '3rem' }} />
 
           <Column field="id" header="ID" sortable style={{ width: '80px' }} />
-          <Column field="name" header="Titulo" sortable filter />
-          <Column field="email" header="Correo" sortable filter />
-          <Column field="country" header="País" sortable filter />
+          <Column field="title" header="Titulo" sortable filter />
+          <Column field="description" header="Descripción" sortable filter />
+          <Column field="contentType" header="Tipo" sortable filter />
         </DataTable>
       </div>
 
       <div
         className={cn(
           'hidden bg-app-soft-white absolute top-0 wscreen h-full',
-          { block: showForm }
+          { block: showForm },
         )}
       >
-        <FormPage close={()=>setShowForm(false)} />
+        <FormPage close={() => setShowForm(false)} />
       </div>
     </section>
   );

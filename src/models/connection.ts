@@ -1,4 +1,4 @@
 export const serverAPI =
   process.env.NEXT_PUBLIC_ENVIRONMENT == 'production'
-    ? 'https://api.citas.devjared.com/'
-    : 'http://api-unsito.devjared.com/';
+    ? 'https://api-unsito.devjared.com/'
+    : 'http://localhost:5000/';

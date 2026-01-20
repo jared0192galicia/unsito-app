@@ -12,17 +12,22 @@ import dynamic from 'next/dynamic';
 import cn from '@/utils/cn';
 import { Calendar } from 'primereact/calendar';
 import { Nullable } from 'primereact/ts-helpers';
+import CalendarPiker from '@/shared/ui/calendar';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { BiCloset } from 'react-icons/bi';
+import { CgClose } from 'react-icons/cg';
+import ImagePicker from '@/shared/ui/imagePicker';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface NewNote {
-  title: string;
+  tittle: string;
   content: string;
   description: string;
-  dateRange: Date[] | Nullable;
+  dateRange: Nullable<(Date | null)[]>;
   tags: string[];
   banner: string;
 }
@@ -31,11 +36,11 @@ export default function FormPage({ close }: any) {
   // const [content, setContent] = useState('');
   const [tags, setTags] = useState([]);
   const [form, setForm] = useState<NewNote>({
-    title: '',
+    tittle: '',
     content: '',
     description: '',
-    dateRange: [],
-    tags: [''],
+    dateRange: null,
+    tags: [],
     banner: '',
   });
 
@@ -43,7 +48,7 @@ export default function FormPage({ close }: any) {
     fetchOptions();
   }, []);
 
-  const handleChange = (name: string, value: string) =>
+  const handleChange = (name: string, value: any) =>
     setForm((prev) => ({ ...prev, [name]: value }));
 
   const fetchOptions = async () => {
@@ -66,21 +71,55 @@ export default function FormPage({ close }: any) {
     console.log(form);
   };
 
+  const makeBody = (): {
+    title: string;
+    content: string;
+    description: string;
+    date: string;
+    banner: any;
+    tags: number[];
+  } => {
+    const date = form.dateRange
+      ?.map((d) => d?.toISOString())
+      .join(' - ') || '';
+    const tags = form.tags.map((tag: any) => tag.id);
+    return {
+      title: form.tittle,
+      content: form.content,
+      description: form.description,
+      banner: form.banner,
+      tags,
+      date,
+    };
+  };
+
   const handleSave = async () => {
     try {
-      // const response: AxiosResponse = await api.admin.postNew({ body: form });
+      const response: AxiosResponse = await api.admin.postNew({
+        body: makeBody(),
+      });
+      // console.log("🚀 ~ response:", response)
+      console.log('🚀 ~ form:', makeBody());
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="min-hscreen w-screen bg-app-soft-white px-6 py-10">
-      <h1 className="text-3xl font-bold text-app-blue-900 mb6">
-        Crear nueva noticia
-      </h1>
+    <div className="min-hscreen w-screen bg-app-soft-white px-6 py-6">
+      <div className="flex justify-between">
+        <h1 className="text-3xl font-bold text-app-blue-900">
+          Crear nueva noticia
+        </h1>
+        <CgClose
+          className={cn(
+            'text-2xl text-gray-500 hover:text-app-blue-800 cursor-pointer items-center',
+          )}
+          onClick={close}
+        />
+      </div>
 
-      <div className="flex gap-4 mt-8 bg-app-white p-3 my-3 px-2 rounded-lg justify-between">
+      <div className="flex gap-4 mt-6 bg-app-white p-3 my-3 px-2 rounded-lg justify-between">
         <div className="flex gap-4">
           <Button variant="discard" onClick={handleDiscard}>
             <Trash2 /> Descartar
@@ -114,7 +153,7 @@ export default function FormPage({ close }: any) {
         <div
           className={cn(
             'bg-app-white p-6 rounded-xl shadow-lg border border-app-blue-600/20',
-            'flex-1 flex flex-col justify-between'
+            'flex-1 flex flex-col justify-between',
           )}
         >
           <Input
@@ -129,36 +168,51 @@ export default function FormPage({ close }: any) {
             label="Descripcion"
             name="description"
           />
-          {/* <Input
-            className="text-app-gray-800 border-none"
-            change={handleChange}
-            label="Fecha"
-            name="date"
-          /> */}
-          {/* <Calendar
-            value={form.dateRange}
-            selectionMode="range"
-            onChange={(e) => {
-              handleChange('dateRange', e.target.value[]);
-            }}
-          ></Calendar> */}
-          <Input
-            className="text-app-gray-800 border-none"
-            change={handleChange}
-            label="Etiquetas"
-            name="tags"
-          />
-          <Input
-            className="text-app-gray-800 border-none"
-            change={handleChange}
-            label="Banner / Hero"
-            name="banner"
-          />
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-app-blue-800">
+              Fecha
+            </label>
+            <Calendar
+              value={form.dateRange}
+              selectionMode="range"
+              onChange={(e) => {
+                handleChange('dateRange', e.target.value);
+              }}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-app-blue-800">
+              Etiquetas
+            </label>
+            <MultiSelect
+              value={form.tags}
+              onChange={(e: MultiSelectChangeEvent) =>
+                handleChange('tags', e.value)
+              }
+              options={tags}
+              optionLabel="name"
+              filter
+              filterDelay={400}
+              maxSelectedLabels={3}
+              // selectedItemsLabel='Seleccionados'
+              className="w-full md:w-20rem"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-app-blue-800">
+              Banner
+            </label>
+            <ImagePicker
+              onChange={(src) => {
+                handleChange('banner', src);
+              }}
+            />
+          </div>
         </div>
         <div
           className={cn(
             'bg-app-white p-6 rounded-xl shadow-lg border border-app-blue-600/20',
-            'flex-2'
+            'flex-2',
           )}
         >
           <Editor
