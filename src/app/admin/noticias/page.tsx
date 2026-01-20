@@ -16,7 +16,7 @@ import FormPage from './form';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface NewNote {
@@ -32,6 +32,7 @@ export default function NuevaNoticiaPage() {
   const [data, setData] = useState([]);
   const [selectNotes, setSelectNotes] = useState([]);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [formMode, setFormMode] = useState<'Edit' | 'Create'>('Create');
 
   useEffect(() => {
     fetchData();
@@ -48,7 +49,16 @@ export default function NuevaNoticiaPage() {
   };
 
   const handleDiscard = () => {};
-  const handleCreate = () => setShowForm(true);
+  const handleEdit = () => {
+    setFormMode('Edit');
+    setShowForm(true);
+  };
+
+  const handleCreate = () => {
+    // setSelectNotes([]);
+    setFormMode('Create');
+    setShowForm(true);
+  };
 
   return (
     <section
@@ -61,7 +71,7 @@ export default function NuevaNoticiaPage() {
           <Trash2 /> Eliminar
         </Button>
 
-        <Button variant="draft" onClick={handleDiscard}>
+        <Button variant="draft" onClick={handleEdit}>
           <Pencil /> Editar
         </Button>
 
@@ -69,7 +79,7 @@ export default function NuevaNoticiaPage() {
           <PlusCircle /> Crear
         </Button>
       </div>
-      <div className={cn({'hidden': showForm})}>
+      <div className={cn({ hidden: showForm })}>
         <DataTable
           value={data}
           scrollHeight="600px"
@@ -98,7 +108,11 @@ export default function NuevaNoticiaPage() {
           { block: showForm },
         )}
       >
-        <FormPage close={() => setShowForm(false)} />
+        <FormPage
+          close={() => setShowForm(false)}
+          data={selectNotes}
+          mode={formMode}
+        />
       </div>
     </section>
   );

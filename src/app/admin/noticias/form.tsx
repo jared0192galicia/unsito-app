@@ -1,30 +1,33 @@
 'use client';
 
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { useNotificationStore } from '@/context/useNotificationStore';
 import { FileBox, Save, Trash2 } from 'lucide-react';
 import { ControlButton } from '@/shared/ui/button';
+import ImagePicker from '@/shared/ui/imagePicker';
+import { Nullable } from 'primereact/ts-helpers';
 import { SiGooglegemini } from 'react-icons/si';
+import { Calendar } from 'primereact/calendar';
+import { stringify } from 'node:querystring';
 import Button from '@/shared/ui/adminButton';
 import { useEffect, useState } from 'react';
+import { CgClose } from 'react-icons/cg';
 import api from '@/services/magicFetch';
 import { AxiosResponse } from 'axios';
 import Input from '@/shared/ui/input';
 import dynamic from 'next/dynamic';
 import cn from '@/utils/cn';
-import { Calendar } from 'primereact/calendar';
-import { Nullable } from 'primereact/ts-helpers';
-import CalendarPiker from '@/shared/ui/calendar';
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-import { BiCloset } from 'react-icons/bi';
-import { CgClose } from 'react-icons/cg';
-import ImagePicker from '@/shared/ui/imagePicker';
-import { useNotificationStore } from '@/context/useNotificationStore';
-import { stringify } from 'node:querystring';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
   { ssr: false },
 );
 
+interface props {
+  close: any;
+  data: any;
+  mode: 'Edit' | 'Create';
+}
 interface NewNote {
   tittle: string;
   content: string;
@@ -34,7 +37,7 @@ interface NewNote {
   banner: string;
 }
 
-export default function FormPage({ close }: any) {
+export default function FormPage({ close, data, mode }: props) {
   const [tags, setTags] = useState([]);
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [form, setForm] = useState<NewNote>({
@@ -51,6 +54,20 @@ export default function FormPage({ close }: any) {
   useEffect(() => {
     fetchOptions();
   }, []);
+
+  useEffect(() => {
+    console.log('🚀 ~ data:', data);
+    if (data && mode == 'Edit') {
+      setForm({
+        tittle: data.title,
+        content: data.content,
+        description: data.description,
+        dateRange: [new Date(data.eventDateStart), new Date(data.eventDateEnd)],
+        tags: [],
+        banner: data.banner,
+      });
+    }
+  }, [data]);
 
   const handleChange = (name: string, value: any) =>
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -172,7 +189,11 @@ export default function FormPage({ close }: any) {
           className={cn(
             'text-2xl text-gray-500 hover:text-app-blue-800 cursor-pointer items-center',
           )}
-          onClick={close}
+          onClick={() => {
+            if (isSaved) {
+              close();
+            }
+          }}
         />
       </div>
 
@@ -182,11 +203,11 @@ export default function FormPage({ close }: any) {
             <Trash2 /> Descartar
           </Button>
 
-          <Button variant="draft" onClick={()=> handleSave('eraser')}>
+          <Button variant="draft" onClick={() => handleSave('eraser')}>
             <FileBox /> Guardar borrador
           </Button>
 
-          <Button variant="save" onClick={()=> handleSave('public')}>
+          <Button variant="save" onClick={() => handleSave('public')}>
             <Save /> Publicar
           </Button>
         </div>
