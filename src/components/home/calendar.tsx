@@ -48,7 +48,7 @@ export const weekDays: Day[] = [
 
 export default function CalendarActivities({className}: {className? :string}) {
   return (
-    <div className={cn('w-full max-w-[420px]', className)}>
+    <div className={cn('w-full max-w-[520px] h-full', className)}>
       <Calendar />
     </div>
   );
@@ -72,7 +72,6 @@ export function Calendar() {
     try {
       const response: AxiosResponse = await api.site.getCalendar()
       setHolidays(response.data);
-      console.log("🚀 ~ response.data:", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -97,9 +96,7 @@ export function Calendar() {
     for (let day = 1; day <= totalDays; day++) {
       const _day: MonthDay = { day, isCurrentMonth: true };
       const date = getDatePick(_day);
-      // console.log("🚀 ~ date:", date)
       const holiDay = isHoliDay(date);
-      console.log("🚀 ~ holiDay:", holiDay);
       days.push({
         ..._day,
         type: holiDay ? holiDay.type : undefined,
@@ -117,7 +114,6 @@ export function Calendar() {
       days.push({ day: i, isCurrentMonth: false });
     }
     
-    // console.log("🚀 ~ days:", days)
     setMonthDays(days);
   };
 
@@ -181,8 +177,6 @@ export function Calendar() {
   const isHoliDay = (day: Date) => {
     return holidays.find(
       (holiday: any) => {
-        // console.log("🚀 ~ day", day.toISOString().split('T')[0])
-        // console.log("🚀 ~ holiday.date:", holiday.date)
         return holiday.date == day.toISOString().split('T')[0];
       },
     );
@@ -196,7 +190,7 @@ export function Calendar() {
     <div
       className={cn(
         'rounded-lg bg-white px-4 py-4 font-noto text-preslow-dark-gray',
-        'border border-solid border-slate-200'
+        'border border-solid border-slate-300'
       )}
     >
       {/* Header */}

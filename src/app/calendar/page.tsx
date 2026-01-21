@@ -26,9 +26,6 @@ export default function CalendarPage() {
             'text-center border-t-4 border-[#77a5c2] flex items-center gap-4 flex-col',
           )}
         >
-          {/* <p className="text-xl font-semibold text-gray-800">
-            Calendario Universitario
-          </p> */}
           <CalendarActivities></CalendarActivities>
         </div>
       </main>
