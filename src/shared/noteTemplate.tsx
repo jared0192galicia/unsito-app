@@ -1,8 +1,10 @@
 // src/shared/NoteTemplate.tsx
 'use client';
 import React from 'react';
+import Link from 'next/link';
 
 export interface NoteDetails {
+  id: string;
   title: string;
   banner: string;
   type: string;
@@ -41,12 +43,12 @@ const NoteTemplate: React.FC<{ note: NoteDetails }> = ({ note }) => {
           dangerouslySetInnerHTML={{ __html: note.body }} 
         />
 
-        <a
-          href="#"
+        <Link
+          href={`/noticia/${note.id}`}
           className="flex items-center text-xs sm:text-sm font-semibold text-[#77a5c2] hover:text-[#5e8399] transition duration-150 mt-auto"
         >
           Leer más →
-        </a>
+        </Link>
       </div>
     </div>
   );
