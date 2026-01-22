@@ -7,7 +7,7 @@ export function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
-  usePageVisit();
+  // usePageVisit();
 
   return <>{children}</>;
 }

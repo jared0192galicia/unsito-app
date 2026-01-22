@@ -56,7 +56,6 @@ export default function FormPage({ close, data, mode }: props) {
   }, []);
 
   useEffect(() => {
-    console.log('🚀 ~ data:', data);
     if (data && mode == 'Edit') {
       setForm({
         tittle: data.title,
@@ -112,11 +111,31 @@ export default function FormPage({ close, data, mode }: props) {
     };
   };
 
+  const makeGeminiBody = (): {
+    title: string;
+    content: string;
+    description: string;
+    date: string;
+    tags: string[];
+  } => {
+    const date = form.dateRange?.map((d) => d?.toISOString()).join(' - ') || '';
+    const tags = form.tags.map((tag: any) => tag.name);
+    return {
+      title: form.tittle,
+      content: form.content,
+      description: form.description,
+      tags,
+      date,
+    };
+  };
+
   const handleReview = async () => {
     try {
-      const response: AxiosResponse = await api.admin.getGeminiReview({
-        param: stringify(makeBody(true)),
+      const param = JSON.stringify(makeGeminiBody());
+      const response: AxiosResponse = await api.admin.postGeminiReview({
+        body: makeGeminiBody(),
       });
+      console.log('🚀 ~ response:', response.data);
       pushNotification({
         title: 'Guardado',
         description: 'Publicación guarada correctamente',
@@ -136,9 +155,10 @@ export default function FormPage({ close, data, mode }: props) {
 
   const handleSuggest = async () => {
     try {
-      const response: AxiosResponse = await api.admin.getGeminiSuggest({
-        param: stringify(makeBody(true)),
+      const response: AxiosResponse = await api.admin.postGeminiSuggest({
+        body: makeGeminiBody(),
       });
+      console.log('🚀 ~ response:', response.data);
       pushNotification({
         title: 'Guardado',
         description: 'Publicación guarada correctamente',
