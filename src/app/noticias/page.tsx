@@ -32,7 +32,7 @@ export default function Home() {
   const newsItems: NoteDetails[] = filteredNotes.map((note: any) => ({
     id: note.id,
     title: note.title,
-    banner: note.banner || 'https://via.placeholder.com/600x400?text=Sin+imagen',
+    banner: note.banner || '/images/banner.png',
     type: note.contentType,
     date: new Date(note.createdAt).toLocaleDateString('es-ES', {
       year: 'numeric',

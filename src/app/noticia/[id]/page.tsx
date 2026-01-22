@@ -79,7 +79,7 @@ export default function NoticiaPage({ params }: NoticiaPageProps) {
                 <img
                   src={
                     note.banner ||
-                    'https://via.placeholder.com/600x400?text=Sin+imagen'
+                    '/images/banner.png'
                   }
                   alt={note.title}
                   className="w-full h-auto rounded-lg shadow-lg"
