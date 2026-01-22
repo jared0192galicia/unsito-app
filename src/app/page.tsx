@@ -26,11 +26,11 @@ const newsItems: NoteDetails[] = [
     body: 'La Universidad de la Sierra Sur hace una cordial invitación a la comunidad universitaria y público en general a participar en las actividades de la XVII Semana de las Culturas de la Sierra Sur, que se  celebrará del 12 al 17 de octubre de 2025. \n Evento gratuito. Asiste y celebra nuestras culturas con música, danza, artesanías, conferencias, exposiciones y gastronomía de nuestra región.',
   },
   {
-    title: 'Convocatoria de Becas para Ingeniería',
+    title: 'Co',
     banner: commonBanner,
     type: 'Académico',
     date: 'Vence el 30 de noviembre',
-    body: 'Abierta la convocatoria para becas de apoyo a estudiantes de la carrera de Ingeniería en los Sistemas de Información.',
+    body: 'Abierta ',
   },
   {
     title: 'Resultados del Torneo Deportivo UNIS',
@@ -62,14 +62,13 @@ export default function Home() {
           </h1>
         </Animate>
         {/* Contenedor del Grid */}
-        <div className="max-w-15xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 align-items-center justify-items-center">
+        <div className="max-w-7xl mx-auto"> {/* Ajusté max-w-15xl a 7xl que es más estándar, pero puedes dejar el tuyo */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {newsItems.map((note, index) => (
-              <React.Fragment key={index}>
-                <Animate>
-                  <NoteTemplate note={note} />
-                </Animate>
-              </React.Fragment>
+              <Animate key={index} className="w-full">
+                {/* Asegúrate de que Animate permita pasar una clase o que su contenido sea w-full */}
+                <NoteTemplate note={note} />
+              </Animate>
             ))}
           </div>
         </div>
