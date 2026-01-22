@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 
 export interface NoteDetails {
-  id: string;
+  id?: string;
   title: string;
   banner: string;
   type: string;
