@@ -12,11 +12,10 @@ export interface NoteDetails {
 
 const NoteTemplate: React.FC<{ note: NoteDetails }> = ({ note }) => {
   return (
-    // Contenedor principal de la Tarjeta
-    // Estilos: Borde sutil, esquinas redondeadas, fondo blanco, y sombra para levantarla.
-    <div className="max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-lg shadow-gray-400 border border-gray-200 bg-white">
-      {/* Imagen/Banner de la Noticia */}
-      <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
+    <div className="w-full h-full flex flex-col rounded-2xl overflow-hidden shadow-lg shadow-gray-400 border border-gray-200 bg-white">
+      
+      {/* Imagen/Banner */}
+      <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden flex-shrink-0">
         <img
           src={note.banner}
           alt={note.title}
@@ -24,9 +23,8 @@ const NoteTemplate: React.FC<{ note: NoteDetails }> = ({ note }) => {
         />
       </div>
 
-      {/* Contenido de Texto */}
-      <div className="p-4 sm:p-6 md:p-10">
-        {/* Metadatos (Tipo y Fecha) */}
+      <div className="p-4 sm:p-6 md:p-10 flex flex-col flex-1">
+        
         <div className="flex justify-between items-center mb-2">
           <span className="text-m font-semibold px-3 py-1 rounded-full bg-[#a0c0d5] text-[#0e3d5b]">
             {note.type}
@@ -34,20 +32,18 @@ const NoteTemplate: React.FC<{ note: NoteDetails }> = ({ note }) => {
           <span className="text-xs sm:text-sm text-gray-500">{note.date}</span>
         </div>
 
-        {/* Título de la Noticia */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-medium text-gray-800 mb-4 mt-7">
           {note.title}
         </h2>
 
-        {/* Cuerpo de la Noticia (Solo el extracto) */}
-        <p className="text-sm sm:text-base text-gray-600 mb-4 mt-2 line-clamp-4">
-          {note.body}
-        </p>
+        <div 
+          className="text-sm sm:text-base text-gray-600 mb-4 mt-2 line-clamp-4 flex-1 prose prose-slate max-w-none"
+          dangerouslySetInnerHTML={{ __html: note.body }} 
+        />
 
-        {/* Enlace "Leer más" */}
         <a
           href="#"
-          className="flex items-center text-xs sm:text-sm font-semibold text-[#77a5c2] hover:text-[#5e8399] transition duration-150"
+          className="flex items-center text-xs sm:text-sm font-semibold text-[#77a5c2] hover:text-[#5e8399] transition duration-150 mt-auto"
         >
           Leer más →
         </a>
