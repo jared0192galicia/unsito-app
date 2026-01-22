@@ -20,7 +20,7 @@ export default function Greetings() {
       <span className="text-2xl md:text-4xl font-light flex gap-2">
         {getGreetings()}
         <span className="text-2xl md:text-4xl font-medium flex gap-1">
-          Pachequin <Welcome />
+          Administrador <Welcome />
         </span>
       </span>
     </div>
