@@ -35,7 +35,7 @@ export interface Post {
   description: string;
   createdAt: string;
   author: Author;
-  banner?: File;
+  banner?: string;
   contentType: string;
   categories: PostCategory[];
   galleryImages: File[];

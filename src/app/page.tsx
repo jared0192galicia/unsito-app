@@ -1,4 +1,5 @@
 'use client';
+
 import Hero from '@/components/home/hero';
 import NoteTemplate from '../shared/noteTemplate';
 import Footer from '@/shared/footer';

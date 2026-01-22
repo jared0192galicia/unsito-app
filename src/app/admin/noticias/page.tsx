@@ -16,7 +16,7 @@ import FormPage from './form';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface NewNote {
@@ -30,8 +30,9 @@ interface NewNote {
 
 export default function NuevaNoticiaPage() {
   const [data, setData] = useState([]);
-  const [content, setContent] = useState('');
+  const [selectNotes, setSelectNotes] = useState([]);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [formMode, setFormMode] = useState<'Edit' | 'Create'>('Create');
 
   useEffect(() => {
     fetchData();
@@ -48,20 +49,29 @@ export default function NuevaNoticiaPage() {
   };
 
   const handleDiscard = () => {};
-  const handleCreate = () => setShowForm(true);
+  const handleEdit = () => {
+    setFormMode('Edit');
+    setShowForm(true);
+  };
+
+  const handleCreate = () => {
+    // setSelectNotes([]);
+    setFormMode('Create');
+    setShowForm(true);
+  };
 
   return (
     <section
-      className={cn('min-h-screen bg-app-soft-white py-10', {
+      className={cn('min-h-screen bg-app-soft-white pt-2', {
         'px-6': !showForm,
       })}
     >
-      <div className="flex gap-4 bg-white p-3 my-3 px-3 rounded-lg">
+      <div className="flex gap-4 bg-white p-3 my-4 px-3 rounded-lg">
         <Button variant="discard" onClick={handleDiscard}>
           <Trash2 /> Eliminar
         </Button>
 
-        <Button variant="draft" onClick={handleDiscard}>
+        <Button variant="draft" onClick={handleEdit}>
           <Pencil /> Editar
         </Button>
 
@@ -69,15 +79,16 @@ export default function NuevaNoticiaPage() {
           <PlusCircle /> Crear
         </Button>
       </div>
-      <div>
+      <div className={cn({ hidden: showForm })}>
         <DataTable
           value={data}
-          scrollHeight="400"
+          scrollHeight="600px"
           emptyMessage="No hay noticias disponibles."
           rows={5}
           dataKey="id"
-          // selection={selectedUsers}
-          // onSelectionChange={(e) => setSelectedUsers(e.value as User[])}
+          selection={selectNotes}
+          selectionMode={'multiple'}
+          onSelectionChange={(e) => setSelectNotes(e.value)}
           // globalFilter={globalFilter}
           stripedRows
           tableStyle={{ minWidth: '40rem' }}
@@ -85,19 +96,23 @@ export default function NuevaNoticiaPage() {
           <Column selectionMode="single" headerStyle={{ width: '3rem' }} />
 
           <Column field="id" header="ID" sortable style={{ width: '80px' }} />
-          <Column field="name" header="Titulo" sortable filter />
-          <Column field="email" header="Correo" sortable filter />
-          <Column field="country" header="País" sortable filter />
+          <Column field="title" header="Titulo" sortable filter />
+          <Column field="description" header="Descripción" sortable filter />
+          <Column field="contentType" header="Tipo" sortable filter />
         </DataTable>
       </div>
 
       <div
         className={cn(
           'hidden bg-app-soft-white absolute top-0 wscreen h-full',
-          { block: showForm }
+          { block: showForm },
         )}
       >
-        <FormPage close={()=>setShowForm(false)} />
+        <FormPage
+          close={() => setShowForm(false)}
+          data={selectNotes}
+          mode={formMode}
+        />
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import NewsFilterBar from '@/components/notes/tags';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
@@ -29,10 +29,10 @@ export default function Home() {
   }, [notes, searchQuery]);
 
   // Convertir datos de la API al formato esperado por NoteTemplate
-  const newsItems: NoteDetails[] = filteredNotes.map((note) => ({
+  const newsItems: NoteDetails[] = filteredNotes.map((note: any) => ({
     id: note.id,
     title: note.title,
-    banner: note.banner?.path || 'https://via.placeholder.com/600x400?text=Sin+imagen',
+    banner: note.banner || '/images/banner.png',
     type: note.contentType,
     date: new Date(note.createdAt).toLocaleDateString('es-ES', {
       year: 'numeric',
