@@ -5,7 +5,8 @@ import NoteTemplate from '../shared/noteTemplate';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
 import Animate from '@/shared/animation';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNotes, useNotesByCategory } from '@/hooks/useNotes';
 
 interface NoteDetails {
   title: string;
@@ -15,42 +16,16 @@ interface NoteDetails {
   body: string;
 }
 
-const commonBanner =
-  'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB';
-
-const newsItems: NoteDetails[] = [
-  {
-    title: 'XVII Semana de las Culturas de la Sierra Sur',
-    banner: commonBanner,
-    type: 'Evento Cultural',
-    date: 'Del 12 al 17 de octubre de 2025',
-    body: 'La Universidad de la Sierra Sur hace una cordial invitación a la comunidad universitaria y público en general a participar en las actividades de la XVII Semana de las Culturas de la Sierra Sur, que se  celebrará del 12 al 17 de octubre de 2025. \n Evento gratuito. Asiste y celebra nuestras culturas con música, danza, artesanías, conferencias, exposiciones y gastronomía de nuestra región.',
-  },
-  {
-    title: 'Co',
-    banner: commonBanner,
-    type: 'Académico',
-    date: 'Vence el 30 de noviembre',
-    body: 'Abierta ',
-  },
-  {
-    title: 'Resultados del Torneo Deportivo UNIS',
-    banner: commonBanner,
-    type: 'Deportes',
-    date: 'Publicado: 15 de noviembre',
-    body: 'Revisa la tabla final de posiciones y los ganadores del torneo de fútbol y básquetbol interuniversitario 2025.',
-  },
-  {
-    title: 'Nuevo Protocolo de Seguridad COVID-19',
-    banner: commonBanner,
-    type: 'Avisos',
-    date: 'Efectivo: 1 de diciembre',
-    body: 'La rectoría anuncia la actualización del protocolo de seguridad sanitaria en todas las instalaciones universitarias.',
-  },
-];
+const commonBanner = '/images/banner.png';
 
 // 4. Modifica el componente principal Home
 export default function Home() {
+  const { notes, loading: allLoading } = useNotes();
+
+  useEffect(() => {
+    
+  }, [notes]);
+
   return (
     <div className="bg-app-white">
       <Navbar></Navbar>
@@ -63,9 +38,10 @@ export default function Home() {
           </h1>
         </Animate>
         {/* Contenedor del Grid */}
-        <div className="max-w-7xl mx-auto"> {/* Ajusté max-w-15xl a 7xl que es más estándar, pero puedes dejar el tuyo */}
+        <div className="max-w-7xl mx-auto">
+          {/* Ajusté max-w-15xl a 7xl que es más estándar, pero puedes dejar el tuyo */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {newsItems.map((note, index) => (
+            {notes.map((note: any, index) => (
               <Animate key={index} className="w-full">
                 {/* Asegúrate de que Animate permita pasar una clase o que su contenido sea w-full */}
                 <NoteTemplate note={note} />

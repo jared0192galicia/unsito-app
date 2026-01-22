@@ -1,0 +1,84 @@
+import { NextResponse } from 'next/server';
+// import { preslowAPI } from '@models/connection';
+
+export async function middleware(request: any) {
+  if (request.nextUrl.pathname == '/reinicio') {
+    const id = request.nextUrl.searchParams.get('id');
+    const isValid = await validatePasswordToken(id);
+
+    if (!isValid) return NextResponse.redirect(new URL('/entrar', request.url));
+
+    return;
+  }
+
+  if (request.nextUrl.pathname == '/entrar') {
+    const response: any = await validateToken(request);
+
+    if (response) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  const response: any = await validateToken(request);
+
+  if (!response) {
+    return NextResponse.redirect(new URL('/entrar', request.url));
+  }
+}
+
+async function validateToken(request: any) {
+  const cookie = request.cookies.get('accessToken');
+  const token = cookie && cookie.value;
+
+  if (!token) {
+    return false;
+  }
+
+  try {
+    // const { status } = await fetch(`${preslowAPI}/sesion/validar`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${token}`
+    //   },
+    //   body: JSON.stringify({ token })
+    // });
+
+    const status = 200;
+    return status >= 200 && status < 300;
+  } catch {
+    return false;
+  }
+}
+
+async function validatePasswordToken(token: string) {
+  try {
+    // const { status } = await fetch(
+    //   `${preslowAPI}/sesion/validar-cambiar-clave`,
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ token })
+    //   }
+    // );
+
+    const status = 200;
+
+    return status >= 200 && status < 300;
+  } catch {
+    return false;
+  }
+}
+
+export const config = {
+  matcher: [
+    '/',
+    '/noticias',
+    '/calendario',
+    '/eventos',
+    '/admin/:path*'
+  ]
+};

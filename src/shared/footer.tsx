@@ -3,7 +3,7 @@ import { Home, Newspaper, Calendar } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-r from-[#0a3550] to-[#053658] text-white py-10 px-8">
+    <footer className="w-full bg-gradient-to-r from-[#0a3550] to-[#053658] text-white py-10 px-8 font-sans">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
 
         {/* Columna 1 - Logo */}
@@ -19,21 +19,21 @@ export default function Footer() {
         {/* Columnas 2, 3 y 4 - Enlaces rápidos */}
         {[1, 2, 3].map((n) => (
           <div key={n}>
-            <h3 className="font-jaldi text-lg font-semibold mb-4">
+            <h3 className="font-sans text-lg font-semibold mb-4">
               Enlaces rápidos
             </h3>
 
-            <ul className="space-y-3 font-jaldi">
-              <li className="flex items-center gap-2 cursor-pointer hover:text-gray-300">
-                <Home size={18} /> Inicio
+            <ul className="space-y-3 ">
+              <li className="hover:text-gray-300">
+                <a href="/" className="flex items-center gap-2 cursor-pointer"> <Home size={18} /> Inicio </a>
               </li>
 
-              <li className="flex items-center gap-2 cursor-pointer hover:text-gray-300">
-                <Newspaper size={18} /> Noticias
+              <li className="hover:text-gray-300">
+                <a href="/noticias" className="flex items-center gap-2 cursor-pointer"> <Newspaper size={18} /> Noticias </a>
               </li>
 
-              <li className="flex items-center gap-2 cursor-pointer hover:text-gray-300">
-                <Calendar size={18} /> Calendario
+              <li className="hover:text-gray-300">
+                <a href="/calendar" className="flex items-center gap-2 cursor-pointer"> <Calendar size={18} /> Calendario </a>
               </li>
             </ul>
           </div>

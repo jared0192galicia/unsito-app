@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react';
 import { Bell, Menu, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import cn from '@/utils/cn';
-import { useNavbarStore } from '@/context/navbar';
+import { useAdminNavbarStore } from '@/context/adminNavbar';
 
-export default function Navbar() {
+export default function AdminNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const { active, setActive, links } = useNavbarStore();
+  const { active, setActive, links } = useAdminNavbarStore();
 
   // Detectar scroll
   useEffect(() => {

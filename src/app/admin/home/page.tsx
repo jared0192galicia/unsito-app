@@ -9,6 +9,7 @@ import Graph from '@/components/admin/home/graph';
 import Greetings from '@/components/admin/home/greetings';
 import { TbEyeFilled } from 'react-icons/tb';
 import { useRouter } from 'next/navigation';
+import AdminNavbar from '@/shared/admin/navbar';
 
 export default function Dashboard() {
   const [operatingDays, setOperatingDays] = useState(0);
@@ -39,7 +40,8 @@ export default function Dashboard() {
 
   return (
     <div className="w-full">
-      {/* <Menu /> */}
+      <AdminNavbar />
+      <div className='py-4'></div>
 
       <Greetings />
 

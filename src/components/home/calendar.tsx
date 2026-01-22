@@ -48,7 +48,7 @@ export const weekDays: Day[] = [
 
 export default function CalendarActivities({className}: {className? :string}) {
   return (
-    <div className={cn('w-full max-w-[520px] h-full', className)}>
+    <div className={cn('w-full sm:max-w-[520px] h-full', className)}>
       <Calendar />
     </div>
   );

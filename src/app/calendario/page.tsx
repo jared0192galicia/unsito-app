@@ -7,22 +7,18 @@ import cn from '@/utils/cn';
 
 export default function CalendarPage() {
   return (
-    // Contenedor principal para la página
     <div className="bg-app-white min-h-screen">
-      {/* 1. BARRA DE NAVEGACIÓN */}
       <Navbar />
 
-      {/* 2. CONTENIDO PRINCIPAL (El espacio donde iría el calendario) */}
-      <main className="p-8 flex flex-col items-center">
-        {/* Título */}
+      <main className="py-5 px-2 sm:p-8 flex flex-col items-center">
         <h1 className="text-4xl font-bold mb-8 text-[#79170f] text-center">
-          Calendario de Eventos
+          Calendario de UNSIS
         </h1>
 
         {/* Contenedor del contenido vacío */}
         <div
           className={cn(
-            'w-full max-w-4xl p-10 bg-white rounded-xl shadow-2xl',
+            'w-full max-w-4xl sm:p-10 bg-white rounded-xl shadow-2xl',
             'text-center border-t-4 border-[#77a5c2] flex items-center gap-4 flex-col',
           )}
         >

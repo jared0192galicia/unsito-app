@@ -1,31 +1,37 @@
 'use client';
 import cn from '@/utils/cn';
 import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
 
 export default function Hero() {
   return (
     <header className="relative">
       <section
         className={cn(
-          'w-screen h-[60vh] flex flex-col itemscenter justify-center overflow-x-hidden',
-          'bg-gradient-to-b from-app-soft-white to-app-blue-600'
+          'w-screen h-[60vh] flex flex-col justify-center overflow-x-hidden',
+          'bg-gradient-to-b from-app-soft-white to-app-blue-600',
         )}
       >
         <Circle />
         <Legend />
-
         <div className="h-10"></div>
-
         <p className="text-app-gray-text text-base md:text-lg xl:text-3xl z-20 text-left left-0 w-2/3 ml-10">
           Noticias y eventos de la Universidad de la Sierra Sur. <br />
           Un espacio digital para mantenerte al día con la vida universitaria,
-          la ciencia y la ciencia y la cultura en la UNSIS.
+          la ciencia y la cultura en la UNSIS.
         </p>
-
-        <div></div>
       </section>
+      <div className="absolute z-30 w-full flex justify-center">
+        <div
+          className={cn(
+            'p-2 h-14 w-14 bg-app-blue-900 text-white rounded-full animate-pulse',
+            'flex justify-center items-center',
+          )}
+        >
+          <ArrowDown className="text-xl font-extrabold" />
+        </div>
+      </div>
       <Waves />
-
       <div className="my-44 w-1"></div>
     </header>
   );
@@ -34,12 +40,12 @@ export default function Hero() {
 function Legend() {
   return (
     <section className="z-20 font-karma">
-      <h1 className="text-3xl md:text-6xl text-center text-app-blue-900">
+      <h1 className="text-2xl md:text-6xl text-center text-app-blue-900">
         Universidad de la Sierra Sur
       </h1>
       <div className="h-8"></div>
-      <h3 className="text-xl md:text-3xl text-center text-app-blue-900">
-        Miahuatlán de Porfirio Días
+      <h3 className="text-lg md:text-3xl text-center text-app-blue-900">
+        Miahuatlán de Porfirio Díaz
       </h3>
     </section>
   );
