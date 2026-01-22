@@ -97,6 +97,7 @@ export default function FormPage({ user, close }: { user: User | null; close: ()
         username: form.username,
         email: form.email,
         password: form.password,
+        roleId: form.roleId
       };
       console.log('Enviando datos:', payload);
 

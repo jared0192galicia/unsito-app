@@ -1,56 +1,35 @@
 'use client';
 
 import Hero from '@/components/home/hero';
-import NoteTemplate from '../shared/noteTemplate';
+import NoteTemplate, { NoteDetails } from '../shared/noteTemplate';
 import Footer from '@/shared/footer';
 import Navbar from '@/shared/navbar';
 import Animate from '@/shared/animation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNotes } from '@/hooks/useNotes';
 
-interface NoteDetails {
-  title: string;
-  banner: string;
-  type: string;
-  date: string;
-  body: string;
-}
-
-const commonBanner =
-  'https://www.unsis.edu.mx/web/sites/default/files/styles/wide/public/2025-09/XVII%20SEMANA%20CULTURAS%20SS%202025%20-pag.jpg?itok=YYFMWjjB';
-
-const newsItems: NoteDetails[] = [
-  {
-    title: 'XVII Semana de las Culturas de la Sierra Sur',
-    banner: commonBanner,
-    type: 'Evento Cultural',
-    date: 'Del 12 al 17 de octubre de 2025',
-    body: 'La Universidad de la Sierra Sur hace una cordial invitación a la comunidad universitaria y público en general a participar en las actividades de la XVII Semana de las Culturas de la Sierra Sur, que se  celebrará del 12 al 17 de octubre de 2025. \n Evento gratuito. Asiste y celebra nuestras culturas con música, danza, artesanías, conferencias, exposiciones y gastronomía de nuestra región.',
-  },
-  {
-    title: 'Co',
-    banner: commonBanner,
-    type: 'Académico',
-    date: 'Vence el 30 de noviembre',
-    body: 'Abierta ',
-  },
-  {
-    title: 'Resultados del Torneo Deportivo UNIS',
-    banner: commonBanner,
-    type: 'Deportes',
-    date: 'Publicado: 15 de noviembre',
-    body: 'Revisa la tabla final de posiciones y los ganadores del torneo de fútbol y básquetbol interuniversitario 2025.',
-  },
-  {
-    title: 'Nuevo Protocolo de Seguridad COVID-19',
-    banner: commonBanner,
-    type: 'Avisos',
-    date: 'Efectivo: 1 de diciembre',
-    body: 'La rectoría anuncia la actualización del protocolo de seguridad sanitaria en todas las instalaciones universitarias.',
-  },
-];
-
-// 4. Modifica el componente principal Home
+// Componente principal Home
 export default function Home() {
+  const { notes, loading } = useNotes();
+  const [newsItems, setNewsItems] = useState<NoteDetails[]>([]);
+
+  useEffect(() => {
+    // Convertir los primeros 4 items del API al formato esperado por NoteTemplate
+    const items: NoteDetails[] = notes.slice(0, 4).map((note: any) => ({
+      id: String(note.id),
+      title: note.title,
+      banner: note.banner || '/images/banner.png',
+      type: note.contentType,
+      date: new Date(note.createdAt).toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+      body: note.content || note.description,
+    }));
+    setNewsItems(items);
+  }, [notes]);
+
   return (
     <div className="bg-app-white">
       <Navbar></Navbar>
@@ -63,15 +42,22 @@ export default function Home() {
           </h1>
         </Animate>
         {/* Contenedor del Grid */}
-        <div className="max-w-7xl mx-auto"> {/* Ajusté max-w-15xl a 7xl que es más estándar, pero puedes dejar el tuyo */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {newsItems.map((note, index) => (
-              <Animate key={index} className="w-full">
-                {/* Asegúrate de que Animate permita pasar una clase o que su contenido sea w-full */}
-                <NoteTemplate note={note} />
-              </Animate>
-            ))}
-          </div>
+        <div className="max-w-7xl mx-auto">
+          {loading ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-96 rounded-lg bg-gray-200 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {newsItems.map((note) => (
+                <Animate key={note.id} className="w-full">
+                  <NoteTemplate note={note} />
+                </Animate>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <Footer></Footer>

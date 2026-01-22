@@ -20,6 +20,7 @@ export interface CreateUserData {
   username: string;
   email: string;
   password: string;
+  roleId?: number;
 }
 
 /**
@@ -40,7 +41,9 @@ export async function getAllUsers() {
  */
 export async function createUser(userData: CreateUserData) {
   try {
-    const response = await api.post('/auth/signup', userData);
+    // Si roleId está presente, usar el endpoint de admin, sino usar signup normal
+    const endpoint = userData.roleId ? '/admin/users/create' : '/auth/signup';
+    const response = await api.post(endpoint, userData);
     return response.data;
   } catch (error) {
     console.error('Error al crear usuario:', error);
