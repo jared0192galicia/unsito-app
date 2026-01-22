@@ -99,6 +99,53 @@ export default function FormPage({ close, data, mode }: FormProps) {
     if (confirm('¿Seguro que deseas descartar los cambios?')) close();
   };
 
+  const makeBody = (
+    publish: boolean,
+  ): {
+    title: string;
+    content: string;
+    description: string;
+    date: string;
+    banner: any;
+    tags: number[];
+    publish: boolean;
+  } => {
+    const date = form.dateRange?.map((d) => d?.toISOString()).join(' - ') || '';
+    const tags = form.tags.map((tag: any) => tag.id);
+    return {
+      title: form.title,
+      content: form.content,
+      description: form.description,
+      banner: form.banner,
+      publish,
+      tags,
+      date,
+    };
+  };
+
+  const handleSave = async (type: 'public' | 'eraser') => {
+    try {
+      const response: AxiosResponse = await api.admin.postNew({
+        body: makeBody(type === 'public'),
+      });
+      pushNotification({
+        title: 'Guardado',
+        description: 'Publicación guarada correctamente',
+        type: 'success',
+        duration: 4_000,
+      });
+      setIsSaved(true);
+    } catch (error) {
+      console.log(error);
+      pushNotification({
+        title: 'Error',
+        description: 'Error al guaradar la publicación',
+        type: 'error',
+        duration: 4_000,
+      });
+    }
+  };
+
   const makeGeminiBody = () => ({
     title: form.title,
     content: form.content,
@@ -250,35 +297,117 @@ export default function FormPage({ close, data, mode }: FormProps) {
   );
 
   const renderSuggestPanel = () => {
-    const seo = suggestResult?.seo ?? { recommended_tags: [] };
+    const priorities = suggestResult?.priorities ?? {
+      must: [],
+      should: [],
+      could: [],
+    };
     const titles = suggestResult?.title_suggestions ?? [];
+    const seo = suggestResult?.seo ?? { recommended_tags: [] };
+    const lead = suggestResult?.lead_examples;
+    const accessibility = suggestResult?.accessibility;
+
+    const renderPriorityItem = (
+      item: any,
+      type: 'must' | 'should' | 'could',
+    ) => {
+      const colors = {
+        must: 'border-red-200 bg-red-50 text-red-700',
+        should: 'border-amber-200 bg-amber-50 text-amber-700',
+        could: 'border-blue-200 bg-blue-50 text-blue-700',
+      };
+
+      return (
+        <div
+          key={item.field + item.suggestion}
+          className={cn(
+            'p-3 rounded-lg border mb-3 transition-all',
+            colors[type],
+          )}
+        >
+          <div className="flex justify-between items-start mb-1">
+            <span className="text-[10px] font-black uppercase tracking-widest opacity-70">
+              {item.field}
+            </span>
+            {item.example && (
+              <button
+                onClick={() => applyGeneralSuggestion(item.field, item.example)}
+                className="text-[10px] font-bold underline uppercase hover:opacity-80"
+              >
+                Aplicar Ejemplo
+              </button>
+            )}
+          </div>
+          <p className="text-sm font-semibold mb-1 leading-tight">
+            {item.suggestion}
+          </p>
+          <p className="text-xs opacity-80 italic">{item.rationale}</p>
+        </div>
+      );
+    };
 
     return (
       <div className="flex flex-col gap-6 p-4">
+        {/* SECCIÓN DE PRIORIDADES (Must, Should, Could) */}
+        <section>
+          <h4 className="text-xs font-bold text-gray-400 uppercase mb-3 flex items-center gap-2">
+            <Sparkles className="w-3 h-3" /> Mejoras Críticas
+          </h4>
+          {priorities.must.map((item: any) => renderPriorityItem(item, 'must'))}
+          {priorities.should.map((item: any) =>
+            renderPriorityItem(item, 'should'),
+          )}
+          {priorities.could.map((item: any) =>
+            renderPriorityItem(item, 'could'),
+          )}
+        </section>
+
+        <hr className="border-slate-100" />
+
+        {/* TÍTULOS (Existente) */}
         <section>
           <h4 className="text-xs font-bold text-gray-400 uppercase mb-3">
-            Títulos Alternativos
+            Títulos Sugeridos
           </h4>
           <div className="flex flex-col gap-2">
             {titles.map((t: any, i: number) => (
               <div
                 key={i}
-                className="group relative bg-app-blue-50/50 p-3 rounded-lg border border-transparent hover:border-app-blue-200 transition-all cursor-pointer"
+                className="group relative bg-white p-3 rounded-lg border border-slate-200 hover:border-app-blue-400 transition-all cursor-pointer"
                 onClick={() => handleChange('title', t.title)}
               >
-                <p className="text-sm font-semibold text-app-blue-900">
+                <p className="text-sm font-semibold text-slate-800">
                   {t.title}
                 </p>
-                <p className="text-[11px] text-app-blue-700/70 mt-1">{t.why}</p>
+                <p className="text-[11px] text-slate-500 mt-1">{t.why}</p>
                 <Sparkles className="absolute top-2 right-2 w-3 h-3 text-app-blue-400 opacity-0 group-hover:opacity-100" />
               </div>
             ))}
           </div>
         </section>
 
+        {/* ESTRUCTURA / LEADS */}
+        {lead && (
+          <section className="bg-slate-900 text-white p-4 rounded-xl">
+            <h4 className="text-[10px] font-bold text-slate-400 uppercase mb-2">
+              Sugerencia de Introducción (Lead)
+            </h4>
+            <p className="text-xs leading-relaxed mb-3 text-slate-300">
+              {lead.short}
+            </p>
+            <button
+              onClick={() => handleChange('content', lead.long + form.content)}
+              className="text-[10px] bg-white/10 hover:bg-white/20 w-full py-2 rounded font-bold transition-colors"
+            >
+              Insertar Lead Largo al inicio
+            </button>
+          </section>
+        )}
+
+        {/* TAGS (Existente) */}
         <section>
           <h4 className="text-xs font-bold text-gray-400 uppercase mb-3">
-            Tags Recomendados
+            Tags Recomendados (SEO)
           </h4>
           <div className="flex flex-wrap gap-2">
             {seo.recommended_tags.map((tg: string, i: number) => (
@@ -292,6 +421,37 @@ export default function FormPage({ close, data, mode }: FormProps) {
             ))}
           </div>
         </section>
+
+        {/* ACCESIBILIDAD */}
+        {accessibility && (
+          <section className="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+            <h4 className="text-xs font-bold text-indigo-900 uppercase mb-2">
+              Accesibilidad
+            </h4>
+            <div className="space-y-2">
+              <div className="p-2 bg-white rounded border border-indigo-200">
+                <p className="text-[10px] font-bold text-indigo-400 uppercase">
+                  Alt del Banner
+                </p>
+                <p className="text-xs text-indigo-900">
+                  {accessibility.banner_alt}
+                </p>
+              </div>
+              <ul className="list-disc list-inside space-y-1">
+                {accessibility.content_recommendations.map(
+                  (rec: string, i: number) => (
+                    <li
+                      key={i}
+                      className="text-[11px] text-indigo-800 leading-tight"
+                    >
+                      {rec}
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
+          </section>
+        )}
       </div>
     );
   };
@@ -324,12 +484,16 @@ export default function FormPage({ close, data, mode }: FormProps) {
           >
             <Trash2 className="w-4 h-4" /> Descartar
           </Button>
-          <Button variant="draft" onClick={() => {}} className="flex gap-2">
+          <Button
+            variant="draft"
+            onClick={() => handleSave('eraser')}
+            className="flex gap-2"
+          >
             <FileBox className="w-4 h-4" /> Borrador
           </Button>
           <Button
             variant="save"
-            onClick={() => {}}
+            onClick={() => handleSave('public')}
             className="ml-auto flex gap-2"
           >
             <Save className="w-4 h-4" /> Publicar
