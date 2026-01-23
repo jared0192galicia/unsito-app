@@ -39,7 +39,7 @@ function Legend() {
       </h1>
       <div className="h-8"></div>
       <h3 className="text-xl md:text-3xl text-center text-app-blue-900">
-        Miahuatlán de Porfirio Días
+        Miahuatlán de Porfirio Díaz
       </h3>
     </section>
   );
