@@ -19,7 +19,7 @@ export const useAdminNavbarStore = create<NavBarStore>((set, get) => ({
     { name: 'Inicio', path: '/home' },
     { name: 'Publicaciones', path: '/noticias' },
     { name: 'Cuentas', path: '/cuentas' },
-    { name: 'Calendario', path: '/calendar' },
+    { name: 'Calendario', path: '/calendario' },
   ],
 
   setActive: (name: string) => set({ active: name }),

@@ -1,4 +1,5 @@
 'use client';
+import api from '@/services/magicFetch';
 import React, { useState, useEffect } from 'react';
 import {
   ResponsiveContainer,
@@ -23,6 +24,7 @@ export default function LineGraph() {
   }, [selectedPeriod, visits]);
 
   useEffect(() => {
+    fetchData();
     const generateTestData = () => {
       const data = [];
       const now = new Date();
@@ -40,8 +42,19 @@ export default function LineGraph() {
     };
 
     const testData = generateTestData();
+    console.log("🚀 ~ testData:", testData)
     setVisits(testData);
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await api.admin.getVisits();
+      // console.log("🚀 ~ response:", response.data)
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
 
   const filterData = () => {
     const now = new Date();
@@ -119,7 +132,7 @@ export default function LineGraph() {
               tickMargin={12}
               tickLine={false}
               axisLine={{ stroke: 'transparent' }}
-              tick={({ x, y, payload, index }) => (
+              tick={({ x, y, payload, index }: any) => (
                 <text
                   x={x}
                   y={y + 15}

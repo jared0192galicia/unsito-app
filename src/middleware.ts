@@ -1,12 +1,19 @@
 import { NextResponse } from 'next/server';
+import api from './services/magicFetch';
 // import { preslowAPI } from '@models/connection';
 
-export async function middleware(request: any) {
-  if (request.nextUrl.pathname == '/reinicio') {
-    const id = request.nextUrl.searchParams.get('id');
-    const isValid = await validatePasswordToken(id);
+const visitPages = ['/', '/calendario', '/noticias', '/eventos'];
 
-    if (!isValid) return NextResponse.redirect(new URL('/entrar', request.url));
+export async function middleware(request: any) {
+  const pathname = request.nextUrl.pathname;
+  if (visitPages.includes(pathname)) {
+    console.log('🚀 ~ request.nextUrl.pathname:', pathname);
+
+    try {
+      api.visits.post({ body: { page: pathname || '/' } });
+    } catch (error) {
+      console.error('Error recording page visit:', error);
+    }
 
     return;
   }
@@ -20,11 +27,11 @@ export async function middleware(request: any) {
     return NextResponse.next();
   }
 
-  const response: any = await validateToken(request);
+  // const response: any = await validateToken(request);
 
-  if (!response) {
-    return NextResponse.redirect(new URL('/entrar', request.url));
-  }
+  // if (!response) {
+  //   return NextResponse.redirect(new URL('/entrar', request.url));
+  // }
 }
 
 async function validateToken(request: any) {
@@ -74,11 +81,5 @@ async function validatePasswordToken(token: string) {
 }
 
 export const config = {
-  matcher: [
-    '/',
-    '/noticias',
-    '/calendario',
-    '/eventos',
-    '/admin/:path*'
-  ]
+  matcher: ['/', '/noticias', '/calendario', '/eventos', '/admin/:path*'],
 };

@@ -19,7 +19,7 @@ export const useNavbarStore = create<NavBarStore>((set, get) => ({
     { name: 'Inicio', path: '/' },
     { name: 'Noticias', path: '/noticias' },
     { name: 'Eventos', path: '#' },
-    { name: 'Calendario', path: '/calendar' },
+    { name: 'Calendario', path: '/calendario' },
   ],
 
   setActive: (name: string) => set({ active: name }),

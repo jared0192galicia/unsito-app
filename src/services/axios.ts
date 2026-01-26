@@ -1,6 +1,6 @@
 import { serverAPI } from '@models/connection';
 import axios, { AxiosInstance } from 'axios';
-import router from 'next/router';
+// import router from 'next/router';
 import Cookies from 'js-cookie';
 import { getToken } from '@/app/api/auth/getToken';
 
@@ -32,7 +32,7 @@ api.interceptors.response.use(
     // Handle error responses here
     if (error.response.status === 401) {
       Cookies.remove('accessToken');
-      router.push('/login');
+      // router.push('/login');
     }
 
     return Promise.reject(error);
