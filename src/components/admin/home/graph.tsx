@@ -150,7 +150,7 @@ export default function LineGraph() {
               tickMargin={12}
               tickLine={false}
               axisLine={{ stroke: 'transparent' }}
-              tick={({ x, y, payload, index }) => (
+              tick={({ x, y, payload, index }: any) => (
                 <text
                   x={x - 10}
                   y={y + 4}
