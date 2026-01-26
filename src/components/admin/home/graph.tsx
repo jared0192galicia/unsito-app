@@ -10,13 +10,13 @@ import {
   Tooltip,
   CartesianGrid,
 } from 'recharts';
+const periods = ['7 Días', '30 Días', '3 Meses', '6 Meses', '1 Año'];
 
 export default function LineGraph() {
   const [selectedPeriod, setSelectedPeriod] = useState('7 Días');
   const [visitsFiltered, setVisitsFiltered] = useState<any[]>([]);
   const [visits, setVisits] = useState<any[]>([]);
 
-  const periods = ['7 Días', '30 Días', '3 Meses', '6 Meses', '1 Año'];
 
   
   useEffect(() => {
@@ -25,31 +25,12 @@ export default function LineGraph() {
 
   useEffect(() => {
     fetchData();
-    const generateTestData = () => {
-      const data = [];
-      const now = new Date();
-
-      for (let i = 0; i < 180; i++) {
-        const d = new Date();
-        d.setDate(now.getDate() - i);
-
-        data.push({
-          date: d.toISOString(),
-          visits: Math.floor(Math.random() * 100) + 20,
-        });
-      }
-      return data;
-    };
-
-    const testData = generateTestData();
-    console.log("🚀 ~ testData:", testData)
-    setVisits(testData);
   }, []);
 
   const fetchData = async () => {
     try {
       const response = await api.admin.getVisits();
-      // console.log("🚀 ~ response:", response.data)
+    setVisits(response.data);
     } catch (error) {
       console.log(error)
       

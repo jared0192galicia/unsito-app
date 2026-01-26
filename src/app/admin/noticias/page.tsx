@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
 import api from '@/services/magicFetch';
 import FormPage from './form';
+import AdminNavbar from '@/shared/admin/navbar';
 
 const Editor = dynamic(
   () => import('primereact/editor').then((mod) => mod.Editor),
@@ -61,59 +62,62 @@ export default function NuevaNoticiaPage() {
   };
 
   return (
-    <section
-      className={cn('min-h-screen bg-app-soft-white pt-2', {
-        'px-6': !showForm,
-      })}
-    >
-      <div className="flex gap-4 bg-white p-3 my-4 px-3 rounded-lg">
-        <Button variant="discard" onClick={handleDiscard}>
-          <Trash2 /> Eliminar
-        </Button>
-
-        <Button variant="draft" onClick={handleEdit}>
-          <Pencil /> Editar
-        </Button>
-
-        <Button variant="save" onClick={handleCreate}>
-          <PlusCircle /> Crear
-        </Button>
-      </div>
-      <div className={cn({ hidden: showForm })}>
-        <DataTable
-          value={data}
-          scrollHeight="600px"
-          emptyMessage="No hay noticias disponibles."
-          rows={5}
-          dataKey="id"
-          selection={selectNotes}
-          selectionMode={'multiple'}
-          onSelectionChange={(e) => setSelectNotes(e.value)}
-          // globalFilter={globalFilter}
-          stripedRows
-          tableStyle={{ minWidth: '40rem' }}
-        >
-          <Column selectionMode="single" headerStyle={{ width: '3rem' }} />
-
-          <Column field="id" header="ID" sortable style={{ width: '80px' }} />
-          <Column field="title" header="Titulo" sortable filter />
-          <Column field="description" header="Descripción" sortable filter />
-          <Column field="contentType" header="Tipo" sortable filter />
-        </DataTable>
-      </div>
-
-      <div
-        className={cn(
-          'hidden bg-app-soft-white absolute top-0 wscreen h-full',
-          { block: showForm },
-        )}
+    <>
+      <AdminNavbar />
+      <section
+        className={cn('min-h-screen bg-app-soft-white pt-2', {
+          'px-6': !showForm,
+        })}
       >
-        <FormPage
-          close={() => setShowForm(false)}
-          data={selectNotes}
-          mode={formMode}
-        />
-      </div>
-    </section>
+        <div className="flex gap-4 bg-white p-3 my-4 px-3 rounded-lg">
+          <Button variant="discard" onClick={handleDiscard}>
+            <Trash2 /> Eliminar
+          </Button>
+
+          <Button variant="draft" onClick={handleEdit}>
+            <Pencil /> Editar
+          </Button>
+
+          <Button variant="save" onClick={handleCreate}>
+            <PlusCircle /> Crear
+          </Button>
+        </div>
+        <div className={cn({ hidden: showForm })}>
+          <DataTable
+            value={data}
+            scrollHeight="600px"
+            emptyMessage="No hay noticias disponibles."
+            rows={5}
+            dataKey="id"
+            selection={selectNotes}
+            selectionMode={'multiple'}
+            onSelectionChange={(e) => setSelectNotes(e.value)}
+            // globalFilter={globalFilter}
+            stripedRows
+            tableStyle={{ minWidth: '40rem' }}
+          >
+            <Column selectionMode="single" headerStyle={{ width: '3rem' }} />
+
+            <Column field="id" header="ID" sortable style={{ width: '80px' }} />
+            <Column field="title" header="Titulo" sortable filter />
+            <Column field="description" header="Descripción" sortable filter />
+            <Column field="contentType" header="Tipo" sortable filter />
+          </DataTable>
+        </div>
+
+        <div
+          className={cn(
+            'hidden bg-app-soft-white absolute top-0 wscreen h-full',
+            { block: showForm },
+          )}
+        >
+          <FormPage
+            close={() => setShowForm(false)}
+            data={selectNotes}
+            mode={formMode}
+          />
+        </div>
+      </section>
+    </>
   );
 }

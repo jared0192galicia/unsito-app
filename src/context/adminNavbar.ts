@@ -16,10 +16,10 @@ export const useAdminNavbarStore = create<NavBarStore>((set, get) => ({
   active: 'Inicio',
 
   links: [
-    { name: 'Inicio', path: '/home' },
-    { name: 'Publicaciones', path: '/noticias' },
-    { name: 'Cuentas', path: '/cuentas' },
-    { name: 'Calendario', path: '/calendario' },
+    { name: 'Inicio', path: '/admin/home' },
+    { name: 'Publicaciones', path: '/admin/noticias' },
+    { name: 'Cuentas', path: '/admin/cuentas' },
+    { name: 'Calendario', path: '/admin/calendario' },
   ],
 
   setActive: (name: string) => set({ active: name }),

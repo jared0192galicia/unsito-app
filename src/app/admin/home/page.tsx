@@ -41,7 +41,7 @@ export default function Dashboard() {
   return (
     <div className="w-full">
       <AdminNavbar />
-      <div className='py-4'></div>
+      <div className="py-4"></div>
 
       <Greetings />
 
@@ -83,20 +83,22 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full px-10 gap-4 flex flex-col mb-4 lg:mb-0 lg:flex-row">
-        <div className="w-full lg:w-4/5">
+        <div className="w-full lg:w-6/8">
           <Graph />
         </div>
 
         <div
           className={cn(
-            'w-full lg:w-1/5 flex flex-row',
-            'lg:flex-col gap-5 justify-center',
+            'borde bordersolid rounded-lg bg-gray-300/20 px-2',
+            'w-full lg:w-2/8 flex flex-row',
+            'lg:flex-col gap-2 justify-center',
           )}
         >
+          <h3 className="text-center">Administración</h3>
           <Span
             span="Publicaciones"
             color="#CF6161"
-            className="bg-app-blue-600 text-white"
+            className="bg-app-blue-600 text-white w-full"
             icon={FaNoteSticky}
             onClick={() => router.push('/admin/noticias')}
           />
