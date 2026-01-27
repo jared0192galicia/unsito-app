@@ -5,11 +5,21 @@ import { useEffect, useState } from 'react';
 import { FaNoteSticky, FaUser } from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa';
 import Span from '@/components/admin/home/span';
-import Graph from '@/components/admin/home/graph';
+// import Graph from '@/components/admin/home/graph';
 import Greetings from '@/components/admin/home/greetings';
 import { TbEyeFilled } from 'react-icons/tb';
 import { useRouter } from 'next/navigation';
 import AdminNavbar from '@/shared/admin/navbar';
+
+import dynamic from 'next/dynamic';
+
+// Cargamos el componente de la gráfica solo en el cliente
+const Graph = dynamic(() => import('@/components/admin/home/graph'), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[280px] w-full bg-gray-100 animate-pulse rounded-lg" />
+  ),
+});
 
 export default function Dashboard() {
   const [operatingDays, setOperatingDays] = useState(0);
