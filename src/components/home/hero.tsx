@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
 export default function Hero() {
+
+  const scroller = () => window.scrollBy({top:600, behavior: 'smooth'});
   return (
     <header className="relative">
       <section
@@ -27,6 +29,7 @@ export default function Hero() {
             'p-2 h-14 w-14 bg-app-blue-900 text-white rounded-full animate-pulse',
             'flex justify-center items-center',
           )}
+          onClick={scroller}
         >
           <ArrowDown className="text-xl font-extrabold" />
         </div>
