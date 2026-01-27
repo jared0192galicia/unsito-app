@@ -7,7 +7,7 @@ export default function Hero() {
 
   const scroller = () => window.scrollBy({top:600, behavior: 'smooth'});
   return (
-    <header className="relative">
+    <header className="relative overflow-hidden">
       <section
         className={cn(
           'w-screen h-[60vh] flex flex-col justify-center overflow-x-hidden',

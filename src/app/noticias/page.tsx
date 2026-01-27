@@ -14,6 +14,7 @@ export default function Home() {
   // Obtener notas según la categoría seleccionada
   const { notes: notesByCategory, loading: categoryLoading } = useNotesByCategory(selectedCategoryId);
   const { notes: allNotes, loading: allLoading } = useNotes();
+  console.log("🚀 ~ allNotes:", allNotes)
 
   const notes = selectedCategoryId ? notesByCategory : allNotes;
   const loading = selectedCategoryId ? categoryLoading : allLoading;
