@@ -17,8 +17,6 @@ export default function LineGraph() {
   const [visitsFiltered, setVisitsFiltered] = useState<any[]>([]);
   const [visits, setVisits] = useState<any[]>([]);
 
-
-  
   useEffect(() => {
     if (visits.length > 0) filterData();
   }, [selectedPeriod, visits]);
@@ -30,12 +28,12 @@ export default function LineGraph() {
   const fetchData = async () => {
     try {
       const response = await api.admin.getVisits();
-    setVisits(response.data);
+      setVisits(response.data);
+      console.log('🚀 ~ response.data:', response.data);
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-  }
+  };
 
   const filterData = () => {
     const now = new Date();
@@ -61,7 +59,7 @@ export default function LineGraph() {
 
     const newVisits = visits
       .filter(
-        (entry) => new Date(entry.date) >= from && new Date(entry.date) <= now
+        (entry) => new Date(entry.date) >= from && new Date(entry.date) <= now,
       )
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
