@@ -29,7 +29,6 @@ export default function LineGraph() {
     try {
       const response = await api.admin.getVisits();
       setVisits(response.data);
-      console.log('🚀 ~ response.data:', response.data);
     } catch (error) {
       console.log(error);
     }
@@ -89,73 +88,75 @@ export default function LineGraph() {
         </div>
       </div>
 
-      <div className="h-[280px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={visitsFiltered}>
-            <defs>
-              <linearGradient id="colorVisitas" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#77A5C2" stopOpacity={0.8} />
-                <stop offset="100%" stopColor="#77A5C2" stopOpacity={0} />
-              </linearGradient>
-            </defs>
+      {visits.length > 0 && (
+        <div className="h-[280px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={visitsFiltered}>
+              <defs>
+                <linearGradient id="colorVisitas" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#77A5C2" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="#77A5C2" stopOpacity={0} />
+                </linearGradient>
+              </defs>
 
-            <CartesianGrid
-              horizontal={true}
-              vertical={false}
-              stroke="#E0E0E0"
-              strokeDasharray="8 8"
-            />
+              <CartesianGrid
+                horizontal={true}
+                vertical={false}
+                stroke="#E0E0E0"
+                strokeDasharray="8 8"
+              />
 
-            <XAxis
-              dataKey="label"
-              tickMargin={12}
-              tickLine={false}
-              axisLine={{ stroke: 'transparent' }}
-              tick={({ x, y, payload, index }: any) => (
-                <text
-                  x={x}
-                  y={y + 15}
-                  textAnchor="middle"
-                  fontSize={12}
-                  fill="#AAAFBE"
-                  style={{ display: index % 2 === 0 ? 'block' : 'none' }}
-                >
-                  {payload.value}
-                </text>
-              )}
-            />
+              <XAxis
+                dataKey="label"
+                tickMargin={12}
+                tickLine={false}
+                axisLine={{ stroke: 'transparent' }}
+                tick={({ x, y, payload, index }: any) => (
+                  <text
+                    x={x}
+                    y={y + 15}
+                    textAnchor="middle"
+                    fontSize={12}
+                    fill="#AAAFBE"
+                    style={{ display: index % 2 === 0 ? 'block' : 'none' }}
+                  >
+                    {payload.value}
+                  </text>
+                )}
+              />
 
-            <YAxis
-              tickMargin={12}
-              tickLine={false}
-              axisLine={{ stroke: 'transparent' }}
-              tick={({ x, y, payload, index }: any) => (
-                <text
-                  x={x - 10}
-                  y={y + 4}
-                  textAnchor="end"
-                  fontSize={13}
-                  fill="#AAAFBE"
-                  style={{ display: index % 2 === 0 ? 'block' : 'none' }}
-                >
-                  {payload.value}
-                </text>
-              )}
-            />
+              <YAxis
+                tickMargin={12}
+                tickLine={false}
+                axisLine={{ stroke: 'transparent' }}
+                tick={({ x, y, payload, index }: any) => (
+                  <text
+                    x={x - 10}
+                    y={y + 4}
+                    textAnchor="end"
+                    fontSize={13}
+                    fill="#AAAFBE"
+                    style={{ display: index % 2 === 0 ? 'block' : 'none' }}
+                  >
+                    {payload.value}
+                  </text>
+                )}
+              />
 
-            <Tooltip />
+              <Tooltip />
 
-            <Area
-              type="monotone"
-              dataKey="visits"
-              stroke="#77A5C2"
-              fill="url(#colorVisitas)"
-              strokeWidth={2}
-              dot={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+              <Area
+                type="monotone"
+                dataKey="visits"
+                stroke="#77A5C2"
+                fill="url(#colorVisitas)"
+                strokeWidth={2}
+                dot={false}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </section>
   );
 }
