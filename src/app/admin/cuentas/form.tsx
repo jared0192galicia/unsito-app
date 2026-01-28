@@ -143,7 +143,7 @@ export default function FormPage({ user, close }: { user: User | null; close: ()
 
   return (
     <div className="min-h-screen w-screen bg-app-soft-white px-6 py-10">
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-6 mt-10">
         <button
           onClick={close}
           className="p-2 hover:bg-gray-200 rounded-lg transition"
