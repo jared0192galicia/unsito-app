@@ -2,7 +2,7 @@
 
 import cn from '@/utils/cn';
 import { useEffect, useState } from 'react';
-import { FaNoteSticky, FaUser } from 'react-icons/fa6';
+import { FaCalendar, FaNewspaper, FaNoteSticky, FaUser, FaUsers } from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa';
 import Span from '@/components/admin/home/span';
 // import Graph from '@/components/admin/home/graph';
@@ -51,7 +51,7 @@ export default function Dashboard() {
   return (
     <div className="w-full">
       <AdminNavbar />
-      <div className="py-4"></div>
+      <div className="py-2"></div>
 
       <Greetings />
 
@@ -63,32 +63,24 @@ export default function Dashboard() {
         )}
       >
         <Span
-          span="K"
-          stats={true}
-          color="#4F6EDF"
-          icon={TbEyeFilled}
-          number={visitsTotal}
-          text="Visitantes Totales"
-        />
-        <Span
-          stats={true}
-          icon={FaUser}
+          span="Administrar Publicaciones"
           color="#CF6161"
-          number={visitsToday}
-          text="Visitantes del Día"
+          className="bg-app-blue-600 text-white w-full"
+          icon={FaNewspaper}
+          onClick={() => router.push('/admin/noticias')}
         />
         <Span
-          span="días"
-          icon={FaHeart}
-          color="#4FB265"
-          text="Funcionamiento"
-          number={operatingDays}
-        />
-        <Span
-          number={128}
+          span="Administrar   Calendario"
           color="#6AA4C8"
-          text="Publicaciones"
-          icon={FaNoteSticky}
+          className="bg-app-blue-600/75 text-white"
+          icon={FaCalendar}
+        />
+        <Span
+          span="Administrar Cuentas"
+          color="#4FB265"
+          className="bg-app-blue-600/50 text-app-blue-800"
+          icon={FaUsers}
+          onClick={() => router.push('/admin/cuentas')}
         />
       </div>
 
@@ -97,33 +89,41 @@ export default function Dashboard() {
           <Graph />
         </div>
 
+        {/* ADMIN */}
         <div
           className={cn(
-            'borde bordersolid rounded-lg bg-gray-300/20 px-2',
+            'rounded-lg bg-gray-300/20',
             'w-full lg:w-2/8 flex flex-row',
             'lg:flex-col gap-2 justify-center',
           )}
         >
-          <h3 className="text-center">Administración</h3>
           <Span
-            span="Publicaciones"
+            span="K"
+            stats={true}
+            color="#4F6EDF"
+            icon={TbEyeFilled}
+            number={visitsTotal}
+            text="Visitantes Totales"
+          />
+          <Span
+            stats={true}
+            icon={FaUser}
             color="#CF6161"
-            className="bg-app-blue-600 text-white w-full"
-            icon={FaNoteSticky}
-            onClick={() => router.push('/admin/noticias')}
+            number={visitsToday}
+            text="Visitantes del Día"
           />
           <Span
-            span="Calendario"
-            color="#6AA4C8"
-            className="bg-app-blue-600/75 text-white"
-            icon={FaNoteSticky}
-          />
-          <Span
-            span="Cuentas"
+            span="días"
+            icon={FaHeart}
             color="#4FB265"
-            className="bg-app-blue-600/50 text-app-blue-800"
+            text="Funcionamiento"
+            number={operatingDays}
+          />
+          <Span
+            number={128}
+            color="#6AA4C8"
+            text="Publicaciones"
             icon={FaNoteSticky}
-            onClick={() => router.push('/admin/cuentas')}
           />
         </div>
       </div>

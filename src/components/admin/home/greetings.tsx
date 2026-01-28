@@ -16,10 +16,10 @@ export default function Greetings() {
   }
 
   return (
-    <div className="px-11 my-2 ml-10">
-      <span className="text-2xl md:text-4xl font-light flex gap-2">
+    <div className="px-11 my-1 ml-10">
+      <span className="text-xl md:text-3xl font-light flex gap-2">
         {getGreetings()}
-        <span className="text-2xl md:text-4xl font-medium flex gap-1">
+        <span className="text-xl md:text-3xl font-medium flex gap-1">
           Administrador <Welcome />
         </span>
       </span>

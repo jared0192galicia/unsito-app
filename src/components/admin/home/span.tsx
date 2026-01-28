@@ -30,7 +30,7 @@ export default function Span({
     <div
       className={cn(
         'bg-app-gray-700/10 flex flex-col md:flex-row',
-        'items-center w-full max-w-xs min-h-[7rem] gap-2 rounded-lg p-4',
+        'items-center w-full max-wxs min-h-[7rem] gap-2 rounded-lg p-4',
         className,
         { 'cursor-pointer': onClick }
       )}
