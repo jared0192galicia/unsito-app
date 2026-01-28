@@ -89,7 +89,7 @@ export default function LineGraph() {
       </div>
 
       {visits.length > 0 && (
-        <div className="h-[380px]">
+        <div className="h-[280px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={visitsFiltered}>
               <defs>

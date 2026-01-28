@@ -36,7 +36,7 @@ export default function Navbar() {
     >
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <div className="text-xl text-[#0c1d33] font-semibold">El CHISMUNCITO</div>
+        <div className="text-xl text-[#0c1d33] font-semibold">Unsito</div>
 
         {/* Links desktop */}
         <ul className="hidden md:flex gap-10 text-[#0c1d33] text-lg font-sans">
@@ -52,8 +52,6 @@ export default function Navbar() {
               {link.name}
             </li>
           ))}
-          <li></li>
-          <li></li>
         </ul>
 
         {/* Right actions desktop */}

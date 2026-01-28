@@ -2,7 +2,13 @@
 
 import cn from '@/utils/cn';
 import { useEffect, useState } from 'react';
-import { FaCalendar, FaNewspaper, FaNoteSticky, FaUser, FaUsers } from 'react-icons/fa6';
+import {
+  FaCalendar,
+  FaNewspaper,
+  FaNoteSticky,
+  FaUser,
+  FaUsers,
+} from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa';
 import Span from '@/components/admin/home/span';
 // import Graph from '@/components/admin/home/graph';
@@ -12,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import AdminNavbar from '@/shared/admin/navbar';
 
 import dynamic from 'next/dynamic';
+import { useAdminNavbarStore } from '@/context/adminNavbar';
 
 // Cargamos el componente de la gráfica solo en el cliente
 const Graph = dynamic(() => import('@/components/admin/home/graph'), {
@@ -25,6 +32,7 @@ export default function Dashboard() {
   const [operatingDays, setOperatingDays] = useState(0);
   const { visitsTotal, visitsToday } = { visitsToday: 10, visitsTotal: 20 };
   const router = useRouter();
+  const { active, setActive, links } = useAdminNavbarStore();
 
   useEffect(() => {
     const startDate = new Date('2025-11-10T00:00:00Z');
@@ -47,6 +55,11 @@ export default function Dashboard() {
       console.error(error);
     }
   };
+  
+  const goTo = (name: string, path: string) => {
+    setActive(name);
+    router.push(path);
+  };
 
   return (
     <div className="w-full">
@@ -63,24 +76,24 @@ export default function Dashboard() {
         )}
       >
         <Span
-          span="Administrar Publicaciones"
+          span="Administración de Publicaciones"
           color="#CF6161"
           className="bg-app-blue-600 text-white w-full"
           icon={FaNewspaper}
-          onClick={() => router.push('/admin/noticias')}
+          onClick={() => goTo('Publicaciones', '/admin/noticias')}
         />
         <Span
-          span="Administrar   Calendario"
+          span="Administración de Calendario"
           color="#6AA4C8"
           className="bg-app-blue-600/75 text-white"
           icon={FaCalendar}
         />
         <Span
-          span="Administrar Cuentas"
+          span="Administración de Cuentas"
           color="#4FB265"
           className="bg-app-blue-600/50 text-app-blue-800"
           icon={FaUsers}
-          onClick={() => router.push('/admin/cuentas')}
+          onClick={() => goTo('Cuentas', '/admin/cuentas')}
         />
       </div>
 
@@ -92,9 +105,9 @@ export default function Dashboard() {
         {/* ADMIN */}
         <div
           className={cn(
-            'rounded-lg bg-gray-300/20',
+            'rounded-lg bggray-300/20',
             'w-full lg:w-2/8 flex flex-row',
-            'lg:flex-col gap-2 justify-center',
+            'lg:flex-col gap-3 justify-center',
           )}
         >
           <Span
@@ -104,26 +117,30 @@ export default function Dashboard() {
             icon={TbEyeFilled}
             number={visitsTotal}
             text="Visitantes Totales"
+            className="max-h-[90px]"
           />
-          <Span
+          {/* <Span
             stats={true}
             icon={FaUser}
             color="#CF6161"
             number={visitsToday}
             text="Visitantes del Día"
-          />
+            className="max-h-[90px]"
+          /> */}
           <Span
             span="días"
             icon={FaHeart}
             color="#4FB265"
             text="Funcionamiento"
             number={operatingDays}
+            className="max-h-[90px]"
           />
           <Span
             number={128}
             color="#6AA4C8"
             text="Publicaciones"
             icon={FaNoteSticky}
+            className="max-h-[90px]"
           />
         </div>
       </div>

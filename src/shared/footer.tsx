@@ -42,7 +42,7 @@ export default function Footer() {
 
       {/* Línea inferior */}
       <div className="text-center mt-10 text-gray-300 text-sm font-jaldi">
-        © {new Date().getFullYear()} EL UNSITO — Todos los derechos reservados.
+        © {new Date().getFullYear()} Unsito — Todos los derechos reservados.
       </div>
     </footer>
   );

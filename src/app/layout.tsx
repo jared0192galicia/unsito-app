@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "El chismuncito - Noticias de la Universidad de la Sierra Sur",
-  description: "Mantente informado con las últimas noticias, eventos y actualizaciones de la Universidad de la Sierra Sur en El chismuncito.",
+  title: "Unsito - Noticias de la Universidad de la Sierra Sur",
+  description: "Mantente informado con las últimas noticias, eventos y actualizaciones de la Universidad de la Sierra Sur en Unsito.",
 };
 
 export default function RootLayout({
